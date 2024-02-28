@@ -1,0 +1,11 @@
+MBR-2482|Refactor VerificationServiceImpl|2024/02/23|2024/02/23|2024/02/23|2024/02/23|||DONE|2024/02/23|
+MBR-2483|Refactor HermesSqsClient.sendRegistrationDate|2024/02/23|2024/02/23|2024/02/23|2024/02/23|||DONE|2024/02/23|
+MBR-2484|Handle type casting in HermesCustomerMessage class for messages|2024/02/23|2024/02/23|2024/02/23|2024/02/27|||MERGED|2024/02/23|
+MBR-2485|Refactor HermesSqsClient.sendConsentAgreements|2024/02/23|2024/02/23|2024/02/23|2024/02/27|||MERGED|2024/02/27|
+CHNYO-3430|Rename utils package|2024/02/23|2024/02/23|2024/02/23|2024/02/26|||DONE|2024/02/27|
+CHNYO-3433|Add error_data for error responses|2024/02/23|2024/02/23|2024/02/23|2024/02/27|||DONE|2024/02/27|
+CHNYO-3438|v1/link-social-account  memberyo 400 에러 케이스 310004|2024/02/23|2024/02/23|2024/02/23|2024/02/28|||DONE|2024/02/27|
+CHNYO-3444|Standardize NeedXxxError|2024/02/23|2024/02/23|2024/02/23|2024/02/27|||DONE|2024/02/27|
+MBR-2490|Fix VerificationService.transferIdentity|2024/02/23|2024/02/23|2024/02/23|2024/02/27|||MERGED|2024/02/27|
+CHNYO-3426|Pryo webclient apply maxmemory for exchangeStrategies|2024/02/28|2024/02/28|2024/02/28|2024/02/28|||CODE_REVIEW|2024/03/31|
+MBR-2495|Fix CustomerControllerTest failing|2024/02/28|2024/02/28|2024/02/28|2024/02/28|||DONE|2024/02/28|
