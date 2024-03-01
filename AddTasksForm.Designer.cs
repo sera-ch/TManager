@@ -163,6 +163,7 @@
             Controls.Add(taskNameLabel);
             Controls.Add(taskIdLabel);
             Name = "AddTasksForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Add Tasks";
             ResumeLayout(false);
             PerformLayout();

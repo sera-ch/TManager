@@ -7,5 +7,11 @@
 
         public const string INVALID_DEADLINE_NAME_ERROR_CODE = "000002";
         public const string INVALID_DEADLINE_ERROR_MESSAGE = "Deadline cannot be before today";
+
+        public const string DUPLICATE_TASK_ERROR_CODE = "000003";
+        public const string DUPLICATE_TASK_ERROR_MESSAGE = "There is already a task with that ID and name";
+
+        public const string INVALID_TASK_STATUS_ERROR_CODE = "000004";
+        public const string INVALID_TASK_STATUS_ERROR_MESSAGE = "Invalid task status";
     }
 }

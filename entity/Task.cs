@@ -13,7 +13,7 @@
         public DateOnly? Done { get; set; }
         public TaskStatus Status { get; set; }
         public DateOnly Deadline { get; set; }
-        public String Note { get; set; }
+        public string Note { get; set; }
 
         public override string ToString()
         {
@@ -22,8 +22,13 @@
 
         public string ToDataString()
         {
-            return String.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name, Assigned.ToString(), Started.ToString(), Merged.ToString(), Closed.ToString(), Done.ToString(), Status.ToString(),
+            return string.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name, Assigned.ToString(), Started.ToString(), PrSent.ToString(), Merged.ToString(), Closed.ToString(), Done.ToString(), Status.ToString(),
                 Deadline.ToString(), Note);
+        }
+
+        public string GetSearchKey()
+        {
+            return string.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name);
         }
 
         public bool IsDone()

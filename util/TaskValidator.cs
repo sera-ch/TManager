@@ -15,9 +15,17 @@ namespace TManager.util
         public static void ValidateDeadline(string deadline)
         {
             DateOnly deadlineDate = DateOnly.Parse(deadline);
-            if (deadlineDate < DateOnly.FromDateTime(DateTime.Now))
+            if (deadlineDate < DateUtil.Today())
             {
                 throw new InvalidDeadlineException();
+            }
+        }
+
+        public static void ValidateExistingTask(string id, string name)
+        {
+            if (MainWindow.TaskList.Exists(task => task.Id == id && task.Name == name))
+            {
+                throw new DuplicateTaskException();
             }
         }
     }
