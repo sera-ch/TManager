@@ -45,6 +45,7 @@
             closeButton = new Button();
             doneButton = new Button();
             taskDeleteButton = new Button();
+            addToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).BeginInit();
             taskContextMenu.SuspendLayout();
             SuspendLayout();
@@ -67,14 +68,14 @@
             // 
             // taskContextMenu
             // 
-            taskContextMenu.Items.AddRange(new ToolStripItem[] { updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem });
+            taskContextMenu.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem });
             taskContextMenu.Name = "taskContextMenu";
-            taskContextMenu.Size = new Size(150, 70);
+            taskContextMenu.Size = new Size(181, 114);
             // 
             // updateTaskMenuItem
             // 
             updateTaskMenuItem.Name = "updateTaskMenuItem";
-            updateTaskMenuItem.Size = new Size(149, 22);
+            updateTaskMenuItem.Size = new Size(180, 22);
             updateTaskMenuItem.Text = "Update";
             updateTaskMenuItem.Click += updateTaskMenuItem_Click;
             // 
@@ -82,7 +83,7 @@
             // 
             changeTaskStatusMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeStatusToInProgressItem, changeStatusToCodeReviewItem, changeStatusToMergedItem, changeStatusToClosedItem, changeStatusToDoneItem });
             changeTaskStatusMenuItem.Name = "changeTaskStatusMenuItem";
-            changeTaskStatusMenuItem.Size = new Size(149, 22);
+            changeTaskStatusMenuItem.Size = new Size(180, 22);
             changeTaskStatusMenuItem.Text = "Change status";
             // 
             // changeStatusToInProgressItem
@@ -123,7 +124,7 @@
             // deleteTaskMenuItem
             // 
             deleteTaskMenuItem.Name = "deleteTaskMenuItem";
-            deleteTaskMenuItem.Size = new Size(149, 22);
+            deleteTaskMenuItem.Size = new Size(180, 22);
             deleteTaskMenuItem.Text = "Delete";
             deleteTaskMenuItem.Click += deleteTaskMenuItem_Click;
             // 
@@ -192,6 +193,13 @@
             taskDeleteButton.UseVisualStyleBackColor = true;
             taskDeleteButton.Click += taskDeleteButton_Click;
             // 
+            // addToolStripMenuItem
+            // 
+            addToolStripMenuItem.Name = "addToolStripMenuItem";
+            addToolStripMenuItem.Size = new Size(180, 22);
+            addToolStripMenuItem.Text = "Add";
+            addToolStripMenuItem.Click += addToolStripMenuItem_Click;
+            // 
             // FullTaskListForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -229,5 +237,6 @@
         private ToolStripMenuItem changeStatusToDoneItem;
         private Button taskDeleteButton;
         private ToolStripMenuItem deleteTaskMenuItem;
+        private ToolStripMenuItem addToolStripMenuItem;
     }
 }
