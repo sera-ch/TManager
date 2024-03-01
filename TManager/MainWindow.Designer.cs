@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             taskListView = new DataGridView();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
@@ -79,34 +80,34 @@
             // 
             chooseFileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aToolStripMenuItem, bToolStripMenuItem, cToolStripMenuItem, dToolStripMenuItem });
             chooseFileToolStripMenuItem.Name = "chooseFileToolStripMenuItem";
-            chooseFileToolStripMenuItem.Size = new Size(180, 22);
+            chooseFileToolStripMenuItem.Size = new Size(133, 22);
             chooseFileToolStripMenuItem.Text = "Choose file";
             // 
             // aToolStripMenuItem
             // 
             aToolStripMenuItem.Name = "aToolStripMenuItem";
-            aToolStripMenuItem.Size = new Size(180, 22);
+            aToolStripMenuItem.Size = new Size(82, 22);
             aToolStripMenuItem.Text = "A";
             aToolStripMenuItem.Click += aToolStripMenuItem_Click;
             // 
             // bToolStripMenuItem
             // 
             bToolStripMenuItem.Name = "bToolStripMenuItem";
-            bToolStripMenuItem.Size = new Size(180, 22);
+            bToolStripMenuItem.Size = new Size(82, 22);
             bToolStripMenuItem.Text = "B";
             bToolStripMenuItem.Click += bToolStripMenuItem_Click;
             // 
             // cToolStripMenuItem
             // 
             cToolStripMenuItem.Name = "cToolStripMenuItem";
-            cToolStripMenuItem.Size = new Size(180, 22);
+            cToolStripMenuItem.Size = new Size(82, 22);
             cToolStripMenuItem.Text = "C";
             cToolStripMenuItem.Click += cToolStripMenuItem_Click;
             // 
             // dToolStripMenuItem
             // 
             dToolStripMenuItem.Name = "dToolStripMenuItem";
-            dToolStripMenuItem.Size = new Size(180, 22);
+            dToolStripMenuItem.Size = new Size(82, 22);
             dToolStripMenuItem.Text = "D";
             dToolStripMenuItem.Click += dToolStripMenuItem_Click;
             // 
@@ -158,6 +159,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(taskListView);
             Controls.Add(menuStrip1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Name = "MainWindow";
             Text = "TManager";

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TManager", "TManager.csproj", "{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TManager", "TManager.csproj", "{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TManager Setup", "..\TManage Setup\TManage Setup.vdproj", "{34503FED-F0AD-4DCB-957A-97BB27D44156}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9BA24F6-A692-4A10-91C7-10F6A4960F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34503FED-F0AD-4DCB-957A-97BB27D44156}.Debug|Any CPU.ActiveCfg = Release
+		{34503FED-F0AD-4DCB-957A-97BB27D44156}.Debug|Any CPU.Build.0 = Release
+		{34503FED-F0AD-4DCB-957A-97BB27D44156}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
