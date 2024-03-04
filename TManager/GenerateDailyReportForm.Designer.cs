@@ -35,6 +35,7 @@
             // 
             // dailyReportTextBox
             // 
+            dailyReportTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dailyReportTextBox.Location = new Point(12, 12);
             dailyReportTextBox.Name = "dailyReportTextBox";
             dailyReportTextBox.Size = new Size(776, 345);

@@ -161,7 +161,7 @@
             Controls.Add(taskNameLabel);
             Controls.Add(taskIdLabel);
             Name = "EditTaskForm";
-            Text = "EditTaskForm";
+            Text = "Update Task";
             ResumeLayout(false);
             PerformLayout();
         }

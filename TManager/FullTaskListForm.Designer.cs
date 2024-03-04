@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             fullTaskListView = new DataGridView();
             taskContextMenu = new ContextMenuStrip(components);
+            addToolStripMenuItem = new ToolStripMenuItem();
             updateTaskMenuItem = new ToolStripMenuItem();
             changeTaskStatusMenuItem = new ToolStripMenuItem();
             changeStatusToInProgressItem = new ToolStripMenuItem();
@@ -45,7 +46,6 @@
             closeButton = new Button();
             doneButton = new Button();
             taskDeleteButton = new Button();
-            addToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).BeginInit();
             taskContextMenu.SuspendLayout();
             SuspendLayout();
@@ -70,12 +70,19 @@
             // 
             taskContextMenu.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem });
             taskContextMenu.Name = "taskContextMenu";
-            taskContextMenu.Size = new Size(181, 114);
+            taskContextMenu.Size = new Size(150, 92);
+            // 
+            // addToolStripMenuItem
+            // 
+            addToolStripMenuItem.Name = "addToolStripMenuItem";
+            addToolStripMenuItem.Size = new Size(149, 22);
+            addToolStripMenuItem.Text = "Add";
+            addToolStripMenuItem.Click += addToolStripMenuItem_Click;
             // 
             // updateTaskMenuItem
             // 
             updateTaskMenuItem.Name = "updateTaskMenuItem";
-            updateTaskMenuItem.Size = new Size(180, 22);
+            updateTaskMenuItem.Size = new Size(149, 22);
             updateTaskMenuItem.Text = "Update";
             updateTaskMenuItem.Click += updateTaskMenuItem_Click;
             // 
@@ -83,7 +90,7 @@
             // 
             changeTaskStatusMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeStatusToInProgressItem, changeStatusToCodeReviewItem, changeStatusToMergedItem, changeStatusToClosedItem, changeStatusToDoneItem });
             changeTaskStatusMenuItem.Name = "changeTaskStatusMenuItem";
-            changeTaskStatusMenuItem.Size = new Size(180, 22);
+            changeTaskStatusMenuItem.Size = new Size(149, 22);
             changeTaskStatusMenuItem.Text = "Change status";
             // 
             // changeStatusToInProgressItem
@@ -124,7 +131,7 @@
             // deleteTaskMenuItem
             // 
             deleteTaskMenuItem.Name = "deleteTaskMenuItem";
-            deleteTaskMenuItem.Size = new Size(180, 22);
+            deleteTaskMenuItem.Size = new Size(149, 22);
             deleteTaskMenuItem.Text = "Delete";
             deleteTaskMenuItem.Click += deleteTaskMenuItem_Click;
             // 
@@ -185,6 +192,7 @@
             // 
             // taskDeleteButton
             // 
+            taskDeleteButton.Anchor = AnchorStyles.None;
             taskDeleteButton.Location = new Point(1097, 732);
             taskDeleteButton.Name = "taskDeleteButton";
             taskDeleteButton.Size = new Size(75, 23);
@@ -192,13 +200,6 @@
             taskDeleteButton.Text = "Delete";
             taskDeleteButton.UseVisualStyleBackColor = true;
             taskDeleteButton.Click += taskDeleteButton_Click;
-            // 
-            // addToolStripMenuItem
-            // 
-            addToolStripMenuItem.Name = "addToolStripMenuItem";
-            addToolStripMenuItem.Size = new Size(180, 22);
-            addToolStripMenuItem.Text = "Add";
-            addToolStripMenuItem.Click += addToolStripMenuItem_Click;
             // 
             // FullTaskListForm
             // 
@@ -213,7 +214,7 @@
             Controls.Add(startWorkingButton);
             Controls.Add(fullTaskListView);
             Name = "FullTaskListForm";
-            Text = "FullTaskListForm";
+            Text = "Task List";
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).EndInit();
             taskContextMenu.ResumeLayout(false);
             ResumeLayout(false);
