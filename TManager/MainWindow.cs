@@ -1,6 +1,7 @@
 ﻿using TManager.entity;
 using TManager.util;
 using Task = TManager.entity.Task;
+using TaskStatus = TManager.entity.TaskStatus;
 
 namespace TManager
 {
@@ -23,6 +24,7 @@ namespace TManager
             TaskList = FileUtil.ReadFileToTaskList(SaveFile);
             List<Task> tasksInProgress = TaskList.FindAll(task => !task.IsDone());
             taskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
+            UpdateDeadlineFormatting();
         }
 
         private void addTaskToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,7 +87,31 @@ namespace TManager
         {
             List<Task> tasksInProgress = TaskList.FindAll(task => !task.IsDone());
             taskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
+            UpdateDeadlineFormatting();
             taskListView.Refresh();
+        }
+
+        private void UpdateDeadlineFormatting()
+        {
+            if (taskListView.Rows.Count == 0)
+            {
+                return;
+            }
+            foreach (DataGridViewRow row in taskListView.Rows)
+            {
+                DateOnly deadline = (DateOnly)row.Cells[2].Value;
+                TaskStatus status = (TaskStatus)row.Cells[1].Value;
+                if (deadline <= DateUtil.Today().AddDays(1) && status != TaskStatus.CODE_REVIEW)
+                {
+                    row.Cells[2].Style.BackColor = Color.Orange;
+                    continue;
+                }
+                if (deadline <= DateUtil.Today() && status != TaskStatus.CODE_REVIEW)
+                {
+                    row.Cells[2].Style.BackColor = Color.Red;
+                    row.Cells[2].Style.ForeColor = Color.White;
+                }
+            }
         }
 
         private void UpdateFileItems(SaveSlot saveSlot)

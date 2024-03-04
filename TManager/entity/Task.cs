@@ -20,6 +20,10 @@
             return Id + " " + Name;
         }
 
+        public bool IsPrSent()
+        {
+            return Status != TaskStatus.TODO && Status != TaskStatus.IN_PROGRESS;
+        }
         public string ToDataString()
         {
             return string.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name, Assigned.ToString(), Started.ToString(), PrSent.ToString(), Merged.ToString(), Closed.ToString(), Done.ToString(), Status.ToString(),

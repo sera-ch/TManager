@@ -215,6 +215,7 @@
             Controls.Add(fullTaskListView);
             Name = "FullTaskListForm";
             Text = "Task List";
+            Load += FullTaskListForm_Load;
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).EndInit();
             taskContextMenu.ResumeLayout(false);
             ResumeLayout(false);

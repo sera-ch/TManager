@@ -53,6 +53,7 @@ namespace TManager
             string updatedTaskStr = updatedTask.ToDataString();
             FileUtil.EditLine(MainWindow.SaveFile, updatedTask.GetSearchKey(), updatedTaskStr);
             RefreshTaskList();
+            UpdateDeadlineFormatting();
             updateButtons();
         }
 
@@ -323,7 +324,35 @@ namespace TManager
             string updatedTaskStr = newTask.ToDataString();
             FileUtil.EditLine(MainWindow.SaveFile, oldTask.GetSearchKey(), updatedTaskStr);
             RefreshTaskList();
+            UpdateDeadlineFormatting();
             updateButtons();
+        }
+
+        private void UpdateDeadlineFormatting()
+        {
+            if (fullTaskListView.Rows.Count == 0)
+            {
+                return;
+            }
+            foreach (DataGridViewRow row in fullTaskListView.Rows)
+            {
+                TaskStatus status = (TaskStatus)row.Cells[8].Value;
+                if (status != TaskStatus.TODO && status != TaskStatus.IN_PROGRESS)
+                {
+                    continue;
+                }
+                DateOnly deadline = (DateOnly)row.Cells[9].Value;
+                if (deadline <= DateUtil.Today().AddDays(1))
+                {
+                    row.Cells[9].Style.BackColor = Color.Orange;
+                    continue;
+                }
+                if (deadline <= DateUtil.Today())
+                {
+                    row.Cells[9].Style.BackColor = Color.Red;
+                    row.Cells[9].Style.ForeColor = Color.White;
+                }
+            }
         }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -334,6 +363,11 @@ namespace TManager
                 return;
             }
             RefreshTaskList();
+        }
+
+        private void FullTaskListForm_Load(object sender, EventArgs e)
+        {
+            UpdateDeadlineFormatting();
         }
     }
 }

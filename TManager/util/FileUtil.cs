@@ -68,7 +68,7 @@ namespace TManager.util
                         lineNumber++;
                         if (lineNumber == lineToEdit)
                         {
-                            if (lineNumber < totalNumberOfLines)
+                            if (lineNumber < totalNumberOfLines - 1)
                             {
                                 writer.WriteLine(newLine);
                                 continue;
@@ -76,7 +76,7 @@ namespace TManager.util
                             writer.Write(newLine);
                             continue;
                         }
-                        if (lineNumber < totalNumberOfLines)
+                        if (lineNumber < totalNumberOfLines - 1)
                         {
                             writer.WriteLine(line);
                             continue;
