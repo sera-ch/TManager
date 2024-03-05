@@ -23,7 +23,7 @@
   <h3>User manual</h3>
   <h4>Installation</h4>
   <ul>
-    <li>Download the installer at <a href = "https://github.com/sera-ch/TManager/releases/tag/v0.0.1">Github release</a></li>
+    <li>Download the installer at <a href = "https://github.com/sera-ch/TManager/releases">Github release</a></li>
     <li>Run the installer and follow the instructions</li>
     <li>If installed in C:, run as administrator</li>
     <li>File > Select file to choose the save file. You can have up to 4 save files</li>
