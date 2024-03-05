@@ -12,6 +12,11 @@
             return Today().AddDays(-1);
         }
 
+        public static DateOnly Tomorrow()
+        {
+            return Today().AddDays(1);
+        }
+
         public static DateTime ToEndOfDay(DateOnly date)
         {
             return new DateTime(date, TimeOnly.MaxValue);

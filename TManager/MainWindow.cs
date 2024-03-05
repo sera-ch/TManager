@@ -25,6 +25,7 @@ namespace TManager
             List<Task> tasksInProgress = TaskList.FindAll(task => !task.IsDone());
             taskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
             UpdateDeadlineFormatting();
+            ShowWelcomeMessage();
         }
 
         private void addTaskToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,6 +38,7 @@ namespace TManager
             List<Task> tasksInProgress = TaskList.FindAll(task => !task.IsDone());
             taskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
             taskListView.Refresh();
+            UpdateDeadlineFormatting();
         }
 
         private void dailyReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -101,7 +103,7 @@ namespace TManager
             {
                 DateOnly deadline = (DateOnly)row.Cells[2].Value;
                 TaskStatus status = (TaskStatus)row.Cells[1].Value;
-                if (deadline <= DateUtil.Today().AddDays(1) && status != TaskStatus.CODE_REVIEW)
+                if (deadline == DateUtil.Tomorrow() && status != TaskStatus.CODE_REVIEW)
                 {
                     row.Cells[2].Style.BackColor = Color.Orange;
                     continue;
@@ -151,6 +153,25 @@ namespace TManager
                         break;
                     }
             }
+        }
+
+        private void ShowWelcomeMessage()
+        {
+            int tasksInReview = TaskList.FindAll(task => task.Status == TaskStatus.CODE_REVIEW).Count();
+            int tasksDueToday = TaskList.FindAll(task => task.Deadline == DateUtil.Today()).Count();
+            int tasksDueTomorrow = TaskList.FindAll(task => task.Deadline == DateUtil.Tomorrow()).Count();
+            int tasksOverdue = TaskList.FindAll(task => task.Deadline < DateUtil.Today()).Count();
+            string welcomeMessage = string.Format("Welcome! Today is {0}.\n" +
+                "You have {1} task(s) due today\n" +
+                "You have {2} task(s) due tomorrow\n" +
+                "You have {3} task(s) overdue\n" +
+                "You have {4} task(s) in review.",
+                DateUtil.Today().ToString(),
+                tasksDueToday,
+                tasksDueTomorrow,
+                tasksOverdue,
+                tasksInReview);
+            MessageBox.Show(welcomeMessage, "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

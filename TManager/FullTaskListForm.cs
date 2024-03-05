@@ -363,6 +363,7 @@ namespace TManager
                 return;
             }
             RefreshTaskList();
+            UpdateDeadlineFormatting();
         }
 
         private void FullTaskListForm_Load(object sender, EventArgs e)

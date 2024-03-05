@@ -9,6 +9,17 @@
   </p>
 </div>
 <div>
+  <h3>Features</h3>
+  <ul>
+    <li>Listing ongoing tasks</li>
+    <li>Warning for tasks due today or tomorrow</li>
+    <li>Tracking task status</li>
+    <li>Four save slots for alt accounts</li>
+    <li>Adding, updating, deleting tasks</li>
+    <li>Automatically generating daily report of yesterday based on task status</li>
+  </ul>
+</div>
+<div>
   <h3>User manual</h3>
   <h4>Installation</h4>
   <ul>
@@ -45,7 +56,7 @@
     <li>Report > Generate daily report to open the Generate daily report dialog</li>
     <li>Click on Copy to copy the daily report</li>
   </ul>
-  <h5>More features incoming</h5>
+  More features incoming
   <p align = "right">
     <a href = "#top">
       Back to top
