@@ -1,4 +1,3 @@
-<br />
 <div id = "top" align="center">
   <a href="https://github.com/sera-ch/TManager/">
     <h3 align="center">TManager</h3>
