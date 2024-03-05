@@ -19,8 +19,8 @@ namespace TManager
 
         private string GenerateDailyReport()
         {
-            List<Task> prSentTasks = MainWindow.TaskList.FindAll(task => task.PrSent == DateUtil.Today() && task.Status == TaskStatus.CODE_REVIEW);
-            List<Task> mergedTasks = MainWindow.TaskList.FindAll(task => task.Merged == DateUtil.Today() && (task.Status == TaskStatus.MERGED || task.Status == TaskStatus.DONE));
+            List<Task> prSentTasks = MainWindow.TaskList.FindAll(task => task.PrSent == DateUtil.Yesterday() && task.Status == TaskStatus.CODE_REVIEW);
+            List<Task> mergedTasks = MainWindow.TaskList.FindAll(task => task.Merged == DateUtil.Yesterday() && (task.Status == TaskStatus.MERGED || task.Status == TaskStatus.DONE));
             List<Task> inProgressTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.IN_PROGRESS);
             List<Task> reviewingTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.CODE_REVIEW);
             List<Task> todoTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.TODO);
