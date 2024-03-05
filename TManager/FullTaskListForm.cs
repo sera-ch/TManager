@@ -342,7 +342,7 @@ namespace TManager
                     continue;
                 }
                 DateOnly deadline = (DateOnly)row.Cells[9].Value;
-                if (deadline <= DateUtil.Today().AddDays(1))
+                if (deadline == DateUtil.Tomorrow())
                 {
                     row.Cells[9].Style.BackColor = Color.Orange;
                     continue;
