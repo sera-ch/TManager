@@ -284,13 +284,25 @@ namespace TManager
         private void RefreshTaskList()
         {
             TaskList = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
-            fullTaskListView.DataSource = TaskList;
+            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
             fullTaskListView.Refresh();
             MainWindow.TaskList = TaskList;
             if (TaskList.Count > 0)
             {
                 SelectedTask = TaskList[0];
             }
+            updateButtons();
+        }
+
+        private void RefreshTaskList(List<Task> newTaskList)
+        {
+            fullTaskListView.DataSource = newTaskList;
+            fullTaskListView.Refresh();
+            if (TaskList.Count > 0)
+            {
+                SelectedTask = TaskList[0];
+            }
+            updateButtons();
         }
 
         private void deleteTaskMenuItem_Click(object sender, EventArgs e)
@@ -368,6 +380,26 @@ namespace TManager
 
         private void FullTaskListForm_Load(object sender, EventArgs e)
         {
+            List<string> statuses = [""];
+            statuses = statuses.Concat(Enum.GetNames(typeof(TaskStatus))).ToList();
+            StatusComboBox.DataSource = statuses;
+            UpdateDeadlineFormatting();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
+        }
+
+        private void StatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
+        }
+
+        private void QueryTasks(string idOrName, string status)
+        {
+            List<Task> selectedTasks = TaskList.FindAll(task => task.IsMatch(status, SearchTextBox.Text));
+            RefreshTaskList(selectedTasks);
             UpdateDeadlineFormatting();
         }
     }

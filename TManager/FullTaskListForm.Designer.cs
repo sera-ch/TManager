@@ -46,22 +46,26 @@
             closeButton = new Button();
             doneButton = new Button();
             taskDeleteButton = new Button();
+            SearchTextBox = new TextBox();
+            SearchLabel = new Label();
+            StatusComboBox = new ComboBox();
+            StatusLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).BeginInit();
             taskContextMenu.SuspendLayout();
             SuspendLayout();
             // 
             // fullTaskListView
             // 
-            fullTaskListView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            fullTaskListView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             fullTaskListView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             fullTaskListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             fullTaskListView.ContextMenuStrip = taskContextMenu;
-            fullTaskListView.Location = new Point(12, 12);
+            fullTaskListView.Location = new Point(12, 52);
             fullTaskListView.MultiSelect = false;
             fullTaskListView.Name = "fullTaskListView";
             fullTaskListView.ReadOnly = true;
             fullTaskListView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            fullTaskListView.Size = new Size(1372, 685);
+            fullTaskListView.Size = new Size(1372, 645);
             fullTaskListView.TabIndex = 0;
             fullTaskListView.SelectionChanged += fullTaskListView_SelectionChanged;
             fullTaskListView.MouseDown += fullTaskListView_CellContentClick;
@@ -137,7 +141,7 @@
             // 
             // startWorkingButton
             // 
-            startWorkingButton.Anchor = AnchorStyles.None;
+            startWorkingButton.Anchor = AnchorStyles.Bottom;
             startWorkingButton.Location = new Point(188, 732);
             startWorkingButton.Name = "startWorkingButton";
             startWorkingButton.Size = new Size(75, 23);
@@ -148,7 +152,7 @@
             // 
             // codeReviewButton
             // 
-            codeReviewButton.Anchor = AnchorStyles.None;
+            codeReviewButton.Anchor = AnchorStyles.Bottom;
             codeReviewButton.Location = new Point(361, 732);
             codeReviewButton.Name = "codeReviewButton";
             codeReviewButton.Size = new Size(75, 23);
@@ -159,7 +163,7 @@
             // 
             // mergeButton
             // 
-            mergeButton.Anchor = AnchorStyles.None;
+            mergeButton.Anchor = AnchorStyles.Bottom;
             mergeButton.Location = new Point(554, 732);
             mergeButton.Name = "mergeButton";
             mergeButton.Size = new Size(75, 23);
@@ -170,7 +174,7 @@
             // 
             // closeButton
             // 
-            closeButton.Anchor = AnchorStyles.None;
+            closeButton.Anchor = AnchorStyles.Bottom;
             closeButton.Location = new Point(732, 732);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
@@ -181,7 +185,7 @@
             // 
             // doneButton
             // 
-            doneButton.Anchor = AnchorStyles.None;
+            doneButton.Anchor = AnchorStyles.Bottom;
             doneButton.Location = new Point(910, 732);
             doneButton.Name = "doneButton";
             doneButton.Size = new Size(75, 23);
@@ -192,7 +196,7 @@
             // 
             // taskDeleteButton
             // 
-            taskDeleteButton.Anchor = AnchorStyles.None;
+            taskDeleteButton.Anchor = AnchorStyles.Bottom;
             taskDeleteButton.Location = new Point(1097, 732);
             taskDeleteButton.Name = "taskDeleteButton";
             taskDeleteButton.Size = new Size(75, 23);
@@ -201,11 +205,51 @@
             taskDeleteButton.UseVisualStyleBackColor = true;
             taskDeleteButton.Click += taskDeleteButton_Click;
             // 
+            // SearchTextBox
+            // 
+            SearchTextBox.Location = new Point(60, 12);
+            SearchTextBox.Name = "SearchTextBox";
+            SearchTextBox.Size = new Size(370, 23);
+            SearchTextBox.TabIndex = 7;
+            SearchTextBox.TextChanged += SearchTextBox_TextChanged;
+            // 
+            // SearchLabel
+            // 
+            SearchLabel.AutoSize = true;
+            SearchLabel.Location = new Point(12, 15);
+            SearchLabel.Name = "SearchLabel";
+            SearchLabel.Size = new Size(42, 15);
+            SearchLabel.TabIndex = 8;
+            SearchLabel.Text = "Search";
+            // 
+            // StatusComboBox
+            // 
+            StatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            StatusComboBox.FormattingEnabled = true;
+            StatusComboBox.Location = new Point(538, 12);
+            StatusComboBox.Name = "StatusComboBox";
+            StatusComboBox.Size = new Size(121, 23);
+            StatusComboBox.TabIndex = 9;
+            StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
+            // 
+            // StatusLabel
+            // 
+            StatusLabel.AutoSize = true;
+            StatusLabel.Location = new Point(494, 15);
+            StatusLabel.Name = "StatusLabel";
+            StatusLabel.Size = new Size(39, 15);
+            StatusLabel.TabIndex = 10;
+            StatusLabel.Text = "Status";
+            // 
             // FullTaskListForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1396, 783);
+            Controls.Add(StatusLabel);
+            Controls.Add(StatusComboBox);
+            Controls.Add(SearchLabel);
+            Controls.Add(SearchTextBox);
             Controls.Add(taskDeleteButton);
             Controls.Add(doneButton);
             Controls.Add(closeButton);
@@ -219,6 +263,7 @@
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).EndInit();
             taskContextMenu.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -240,5 +285,9 @@
         private Button taskDeleteButton;
         private ToolStripMenuItem deleteTaskMenuItem;
         private ToolStripMenuItem addToolStripMenuItem;
+        private TextBox SearchTextBox;
+        private Label SearchLabel;
+        private ComboBox StatusComboBox;
+        private Label StatusLabel;
     }
 }

@@ -56,5 +56,19 @@
             this.Note = Note;
         }
 
+        public bool IsMatch(string status, string searchText)
+        {
+            return IsStatusMatch(status) && (Id.ToLower().Contains(searchText.ToLower()) || Name.ToLower().Contains(searchText.ToLower()));
+        }
+
+        public bool IsStatusMatch(string status)
+        {
+            if (status == string.Empty)
+            {
+                return true;
+            }
+            return Status.ToString().ToLower().Contains(status.ToLower());
+        }
+
     }
 }

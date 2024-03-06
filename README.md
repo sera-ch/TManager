@@ -11,6 +11,7 @@
   <h3>Features</h3>
   <ul>
     <li>Listing ongoing tasks</li>
+    <li>Filter tasks</li>
     <li>Warning for tasks due today or tomorrow</li>
     <li>Tracking task status</li>
     <li>Four save slots for alt accounts</li>
@@ -36,6 +37,11 @@
     <li>Optionally, add task notes</li>
     <li>Click Add to add new task</li>
   </ul>
+  <h5>Filter tasks</h5>
+  <ul>
+    <li>Task > Task list to open the task list</li>
+    <li>Type what to search for in the search text box and/or select staus from the drop-down menu to filter</li>
+  </ul>
   <h5>Change the task status</h5>
   <ul>
     <li>Change task status using buttons:</li>
@@ -46,13 +52,14 @@
     </ul>
     <li>Change task status using the context menu:</li>
     <ul>
-      <li>right click on the task you want to change status</li>
+      <li>Task > Task list to open the task list</li>
+      <li>Right click on the task you want to change status</li>
       <li>Change status > choose the new status</li>
     </ul>
   </ul>
   <h5>Generate daily report</h5>
   <ul>
-    <li>Report > Generate daily report to open the Generate daily report dialog</li>
+    <li>Report > Daily report to open the Generate daily report dialog</li>
     <li>Click on Copy to copy the daily report</li>
   </ul>
   More features incoming
