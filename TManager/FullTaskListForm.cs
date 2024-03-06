@@ -284,12 +284,12 @@ namespace TManager
         private void RefreshTaskList()
         {
             TaskList = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
-            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
+            List<Task> selectedTasks = QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
             fullTaskListView.Refresh();
             MainWindow.TaskList = TaskList;
-            if (TaskList.Count > 0)
+            if (selectedTasks.Count > 0)
             {
-                SelectedTask = TaskList[0];
+                SelectedTask = selectedTasks[0];
             }
             updateButtons();
         }
@@ -298,9 +298,9 @@ namespace TManager
         {
             fullTaskListView.DataSource = newTaskList;
             fullTaskListView.Refresh();
-            if (TaskList.Count > 0)
+            if (newTaskList.Count > 0)
             {
-                SelectedTask = TaskList[0];
+                SelectedTask = newTaskList[0];
             }
             updateButtons();
         }
@@ -396,11 +396,12 @@ namespace TManager
             QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
         }
 
-        private void QueryTasks(string idOrName, string status)
+        private List<Task> QueryTasks(string idOrName, string status)
         {
             List<Task> selectedTasks = TaskList.FindAll(task => task.IsMatch(status, SearchTextBox.Text));
             RefreshTaskList(selectedTasks);
             UpdateDeadlineFormatting();
+            return selectedTasks;
         }
     }
 }
