@@ -13,5 +13,8 @@
 
         public const string INVALID_TASK_STATUS_ERROR_CODE = "000004";
         public const string INVALID_TASK_STATUS_ERROR_MESSAGE = "Invalid task status";
+
+        public const string USER_NOT_FOUND_ERROR_CODE = "100000";
+        public const string USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     }
 }

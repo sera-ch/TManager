@@ -1,4 +1,6 @@
 ﻿using TManager.error;
+using TManager.repository;
+using TManager.service;
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -7,6 +9,8 @@ namespace TManager
 {
     public partial class AddTasksForm : Form
     {
+
+        private TaskService taskService = new TaskServiceImpl(new TaskRepository());
         public AddTasksForm()
         {
             InitializeComponent();
@@ -30,8 +34,9 @@ namespace TManager
                 string assigned = DateUtil.Today().ToString();
                 string note = noteTextBox.Text;
                 Task newTask = new Task(id, name, assigned, "", "", "", "", "", TaskStatus.TODO.ToString(), deadline, note);
+                newTask.User = MainWindow.User;
                 MainWindow.TaskList.Add(newTask);
-                FileUtil.WriteTaskToFile(MainWindow.SaveFile, newTask);
+                taskService.SaveTask(newTask);
             }
             catch (InvalidIdOrNameException)
             {

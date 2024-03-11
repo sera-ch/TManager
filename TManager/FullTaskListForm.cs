@@ -1,4 +1,6 @@
-﻿using TManager.util;
+﻿using TManager.repository;
+using TManager.service;
+using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
 
@@ -8,10 +10,12 @@ namespace TManager
     {
         public Task SelectedTask { get; set; }
         public List<Task> TaskList { get; set; }
+
+        private TaskService taskService = new TaskServiceImpl(new TaskRepository());
         public FullTaskListForm()
         {
             InitializeComponent();
-            List<Task> tasks = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
+            List<Task> tasks = taskService.GetAllTasksByUserId(MainWindow.User.Id);
             TaskList = tasks;
             fullTaskListView.DataSource = TaskList;
             SelectedTask = null;
@@ -50,8 +54,7 @@ namespace TManager
                 case TaskStatus.MERGED: updatedTask.Merged = DateUtil.Today(); break;
                 case TaskStatus.DONE: updatedTask.Done = DateUtil.Today(); break;
             }
-            string updatedTaskStr = updatedTask.ToDataString();
-            FileUtil.EditLine(MainWindow.SaveFile, updatedTask.GetSearchKey(), updatedTaskStr);
+            taskService.UpdateTask(updatedTask.Id, updatedTask);
             RefreshTaskList();
             UpdateDeadlineFormatting();
             updateButtons();
@@ -277,13 +280,13 @@ namespace TManager
 
         private void deleteTaskAndRefreshTaskList(Task selectedTask)
         {
-            FileUtil.DeleteLine(MainWindow.SaveFile, selectedTask.GetSearchKey());
+            taskService.DeleteTask(selectedTask.Id);
             RefreshTaskList();
         }
 
         private void RefreshTaskList()
         {
-            TaskList = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
+            TaskList = taskService.GetAllTasksByUserId(MainWindow.User.Id);
             List<Task> selectedTasks = QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
             fullTaskListView.Refresh();
             MainWindow.TaskList = TaskList;
@@ -333,8 +336,7 @@ namespace TManager
 
         private void updateTaskAndRefreshList(Task oldTask, Task newTask)
         {
-            string updatedTaskStr = newTask.ToDataString();
-            FileUtil.EditLine(MainWindow.SaveFile, oldTask.GetSearchKey(), updatedTaskStr);
+            taskService.UpdateTask(oldTask.Id, newTask);
             RefreshTaskList();
             UpdateDeadlineFormatting();
             updateButtons();

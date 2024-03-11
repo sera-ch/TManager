@@ -1,6 +1,5 @@
 ﻿using TManager.util;
 using Task = TManager.entity.Task;
-using TaskStatus = TManager.entity.TaskStatus;
 
 namespace TManager
 {
@@ -13,17 +12,20 @@ namespace TManager
         public GenerateDailyReportForm()
         {
             InitializeComponent();
-            string dailyReport = GenerateDailyReport();
-            dailyReportTextBox.Text = dailyReport;
         }
 
-        private string GenerateDailyReport()
+        private string GenerateDailyReport(DateOnly date)
         {
-            List<Task> prSentTasks = MainWindow.TaskList.FindAll(task => task.PrSent == DateUtil.Yesterday() && task.Status == TaskStatus.CODE_REVIEW);
-            List<Task> mergedTasks = MainWindow.TaskList.FindAll(task => task.Merged == DateUtil.Yesterday() && (task.Status == TaskStatus.MERGED || task.Status == TaskStatus.DONE));
-            List<Task> inProgressTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.IN_PROGRESS);
-            List<Task> reviewingTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.CODE_REVIEW);
-            List<Task> todoTasks = MainWindow.TaskList.FindAll(task => task.Status == TaskStatus.TODO);
+            List<Task> prSentTasks = MainWindow.TaskList.FindAll(task => task.IsPrSent(date));
+
+            List<Task> mergedTasks = MainWindow.TaskList.FindAll(task => task.IsMerged(date));
+
+            List<Task> inProgressTasks = MainWindow.TaskList.FindAll(task => task.IsInProgress(date));
+
+            List<Task> reviewingTasks = MainWindow.TaskList.FindAll(task => task.IsInCodeReview(date));
+
+            List<Task> todoTasks = MainWindow.TaskList.FindAll(task => task.IsToDo(date));
+
             string dailyReport = "DONE:\n";
             if (prSentTasks.Count == 0 && mergedTasks.Count == 0)
             {
@@ -81,6 +83,18 @@ namespace TManager
         {
             MessageBox.Show("Copied!", "Copied", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Clipboard.SetText(dailyReportTextBox.Text);
+        }
+
+        private void GenerateDailyReportForm_Load(object sender, EventArgs e)
+        {
+            dailyReportDatePicker.MaxDate = DateUtil.ToEndOfDay(DateUtil.Today());
+            string dailyReport = GenerateDailyReport(DateUtil.From(dailyReportDatePicker.Value));
+            dailyReportTextBox.Text = dailyReport;
+        }
+
+        private void dailyReportDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            GenerateDailyReport(DateUtil.From(dailyReportDatePicker.Value));
         }
     }
 }
