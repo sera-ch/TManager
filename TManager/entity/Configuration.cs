@@ -4,14 +4,17 @@
     {
         public SaveSlot SaveSlot { get; set; }
 
-        public Configuration(string SaveSlot)
+        public int UserId { get; set; }
+
+        public Configuration(string userId)
         {
-            this.SaveSlot = (SaveSlot)Enum.Parse(typeof(SaveSlot), SaveSlot, true);
+            this.SaveSlot = entity.SaveSlot.A;
+            this.UserId = int.Parse(userId);
         }
 
         public override string ToString()
         {
-            return SaveSlot.ToString();
+            return UserId.ToString();
         }
     }
 }

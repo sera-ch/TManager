@@ -21,5 +21,15 @@
         {
             return new DateTime(date, TimeOnly.MaxValue);
         }
+
+        public static DateOnly Yesterday(DateOnly date)
+        {
+            return date.AddDays(-1);
+        }
+
+        public static DateOnly From(DateTime date)
+        {
+            return DateOnly.FromDateTime(date);
+        }
     }
 }

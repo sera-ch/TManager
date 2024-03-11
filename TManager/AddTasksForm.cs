@@ -1,14 +1,27 @@
-﻿using TManager.error;
-using TManager.util;
+using TManager.business;
+using TManager.error;
+using TManager.repository;
+using TManager.service;
 using Task = TManager.entity.Task;
-using TaskStatus = TManager.entity.TaskStatus;
+using User = TManager.entity.User;
 
 namespace TManager
 {
     public partial class AddTasksForm : Form
     {
+
+<<<<<<< HEAD
+        private AddTaskFormBusiness addTaskFormBusiness;
+        public User User { get; set; }
+        public Task Response { get; set; }
+        public AddTasksForm(User user)
+=======
+        private TaskService taskService = new TaskServiceImpl(new TaskRepository());
         public AddTasksForm()
+>>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
         {
+            this.User = user;
+            addTaskFormBusiness = new AddTaskFormBusiness(new TaskServiceImpl(new TaskRepository()), User);
             InitializeComponent();
         }
 
@@ -19,8 +32,12 @@ namespace TManager
 
         private void addTaskButton_Click(object sender, EventArgs e)
         {
+            Task? newTask = null;
             try
             {
+<<<<<<< HEAD
+                newTask = addTaskFormBusiness.AddTask(taskIdTextBox.Text, taskNameTextBox.Text, deadlineDatePicker.Text, noteTextBox.Text);
+=======
                 string id = taskIdTextBox.Text;
                 string name = taskNameTextBox.Text;
                 TaskValidator.ValidateIdAndName(id, name);
@@ -30,8 +47,10 @@ namespace TManager
                 string assigned = DateUtil.Today().ToString();
                 string note = noteTextBox.Text;
                 Task newTask = new Task(id, name, assigned, "", "", "", "", "", TaskStatus.TODO.ToString(), deadline, note);
+                newTask.User = MainWindow.User;
                 MainWindow.TaskList.Add(newTask);
-                FileUtil.WriteTaskToFile(MainWindow.SaveFile, newTask);
+                taskService.SaveTask(newTask);
+>>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
             }
             catch (InvalidIdOrNameException)
             {
@@ -49,6 +68,7 @@ namespace TManager
                 return;
             }
             this.DialogResult = DialogResult.OK;
+            this.Response = newTask;
             this.Close();
         }
     }

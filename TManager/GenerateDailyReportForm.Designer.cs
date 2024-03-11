@@ -31,14 +31,16 @@
             dailyReportTextBox = new RichTextBox();
             copyDailyReportButton = new Button();
             exitDailyReportButton = new Button();
+            dailyReportDateLabel = new Label();
+            dailyReportDatePicker = new DateTimePicker();
             SuspendLayout();
             // 
             // dailyReportTextBox
             // 
             dailyReportTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dailyReportTextBox.Location = new Point(12, 12);
+            dailyReportTextBox.Location = new Point(12, 57);
             dailyReportTextBox.Name = "dailyReportTextBox";
-            dailyReportTextBox.Size = new Size(776, 345);
+            dailyReportTextBox.Size = new Size(776, 300);
             dailyReportTextBox.TabIndex = 0;
             dailyReportTextBox.Text = "";
             // 
@@ -63,6 +65,23 @@
             exitDailyReportButton.Text = "Close";
             exitDailyReportButton.UseVisualStyleBackColor = true;
             // 
+            // dailyReportDateLabel
+            // 
+            dailyReportDateLabel.AutoSize = true;
+            dailyReportDateLabel.Location = new Point(12, 20);
+            dailyReportDateLabel.Name = "dailyReportDateLabel";
+            dailyReportDateLabel.Size = new Size(82, 15);
+            dailyReportDateLabel.TabIndex = 3;
+            dailyReportDateLabel.Text = "Report for day";
+            // 
+            // dailyReportDatePicker
+            // 
+            dailyReportDatePicker.Location = new Point(100, 14);
+            dailyReportDatePicker.Name = "dailyReportDatePicker";
+            dailyReportDatePicker.Size = new Size(200, 23);
+            dailyReportDatePicker.TabIndex = 4;
+            dailyReportDatePicker.ValueChanged += dailyReportDatePicker_ValueChanged;
+            // 
             // GenerateDailyReportForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -70,13 +89,17 @@
             CancelButton = exitDailyReportButton;
             ClientSize = new Size(800, 450);
             ControlBox = false;
+            Controls.Add(dailyReportDatePicker);
+            Controls.Add(dailyReportDateLabel);
             Controls.Add(exitDailyReportButton);
             Controls.Add(copyDailyReportButton);
             Controls.Add(dailyReportTextBox);
             Name = "GenerateDailyReportForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Generate Daily Report";
+            Load += GenerateDailyReportForm_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -84,5 +107,7 @@
         private RichTextBox dailyReportTextBox;
         private Button copyDailyReportButton;
         private Button exitDailyReportButton;
+        private Label dailyReportDateLabel;
+        private DateTimePicker dailyReportDatePicker;
     }
 }

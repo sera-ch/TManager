@@ -1,10 +1,16 @@
 ﻿using TManager.error;
+using TManager.service;
 
 namespace TManager.util
 {
     public class TaskValidator
     {
-        public static void ValidateIdAndName(string id, string name)
+        private TaskService taskService;
+        public TaskValidator(TaskService taskService)
+        {
+            this.taskService = taskService;
+        }
+        public void ValidateIdAndName(string id, string name)
         {
             if (id == "" || name == "")
             {
@@ -12,7 +18,7 @@ namespace TManager.util
             }
         }
 
-        public static void ValidateDeadline(string deadline)
+        public void ValidateDeadline(string deadline)
         {
             DateOnly deadlineDate = DateOnly.Parse(deadline);
             if (deadlineDate < DateUtil.Today())
@@ -21,9 +27,9 @@ namespace TManager.util
             }
         }
 
-        public static void ValidateExistingTask(string id, string name)
+        public void ValidateExistingTask(string id, string name)
         {
-            if (MainWindow.TaskList.Exists(task => task.Id == id && task.Name == name))
+            if (taskService.ExistsByIdAndName(id, name))
             {
                 throw new DuplicateTaskException();
             }

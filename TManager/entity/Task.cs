@@ -1,8 +1,9 @@
-﻿namespace TManager.entity
+﻿using TManager.util;
+
+namespace TManager.entity
 {
     public class Task
     {
-        const char ATTRIBUTE_SPLIT_REGEX = '|';
         public string Id { get; set; }
         public string Name { get; set; }
         public DateOnly? Assigned { get; set; }
@@ -14,6 +15,7 @@
         public TaskStatus Status { get; set; }
         public DateOnly Deadline { get; set; }
         public string Note { get; set; }
+        public User User { get; set; }
 
         public override string ToString()
         {
@@ -23,17 +25,6 @@
         public bool IsWip()
         {
             return Status == TaskStatus.TODO || Status == TaskStatus.IN_PROGRESS;
-        }
-
-        public string ToDataString()
-        {
-            return string.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name, Assigned.ToString(), Started.ToString(), PrSent.ToString(), Merged.ToString(), Closed.ToString(), Done.ToString(), Status.ToString(),
-                Deadline.ToString(), Note);
-        }
-
-        public string GetSearchKey()
-        {
-            return string.Join(ATTRIBUTE_SPLIT_REGEX, Id, Name);
         }
 
         public bool IsDone()
@@ -70,5 +61,37 @@
             return Status.ToString().ToLower().Contains(status.ToLower());
         }
 
+        public bool IsPrSent(DateOnly date)
+        {
+            // Status PR Sent = PR was sent the previous day but not merged yet OR merged after that day
+            return PrSent == DateUtil.Yesterday(date) &&
+            (Merged == null || Merged > DateUtil.Yesterday(date));
+        }
+
+        // Status in progress = PR was started the previous day but not PR sent yet OR sent after that day
+        public bool IsInProgress(DateOnly date)
+        {
+            return Started == DateUtil.Yesterday(date) &&
+                (PrSent == null || PrSent > DateUtil.Yesterday(date));
+        }
+
+        // Status in code review = PR was sent the previous day but not merged yet OR merged after that day
+        public bool IsInCodeReview(DateOnly date)
+        {
+            return PrSent == DateUtil.Yesterday(date) &&
+                (Merged == null || Merged > DateUtil.Yesterday(date));
+        }
+
+        // Status Merged = PR was merged the previous day
+        public bool IsMerged(DateOnly date)
+        {
+            return Merged == DateUtil.Yesterday(date);
+        }
+
+        // Status todo = PR is not started or was not started yet on that day
+        public bool IsToDo(DateOnly date)
+        {
+            return Status == TaskStatus.TODO || Started > DateUtil.Yesterday(date);
+        }
     }
 }
