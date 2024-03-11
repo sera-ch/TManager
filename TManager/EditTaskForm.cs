@@ -1,6 +1,10 @@
-﻿using TManager.error;
+﻿using TManager.business;
+using TManager.error;
+using TManager.repository;
+using TManager.service;
 using TManager.util;
 using Task = TManager.entity.Task;
+using User = TManager.entity.User;
 
 namespace TManager
 {
@@ -8,9 +12,13 @@ namespace TManager
     {
         public Task Task { get; set; }
         public Task NewTask { get; set; }
-        public EditTaskForm(Task SelectedTask)
+        public User User { get; set; }
+        private EditTaskFormBusiness editTaskFormBusiness;
+        public EditTaskForm(Task SelectedTask, User user)
         {
             Task = SelectedTask;
+            User = user;
+            editTaskFormBusiness = new EditTaskFormBusiness(new TaskServiceImpl(new TaskRepository()), User, SelectedTask);
             InitializeComponent();
             GetTaskAttributes();
         }
@@ -25,36 +33,10 @@ namespace TManager
 
         private void saveTaskButton_Click(object sender, EventArgs e)
         {
+            Task? newTask = null;
             try
             {
-                string id = taskIdTextBox.Text;
-                string name = taskNameTextBox.Text;
-                TaskValidator.ValidateIdAndName(id, name);
-                if (id != Task.Id || name != Task.Name)
-                {
-                    TaskValidator.ValidateExistingTask(id, name);
-                }
-                string? deadline = deadlineDatePicker.Text;
-                TaskValidator.ValidateDeadline(deadline);
-                string? assigned = Task.Assigned == null ? String.Empty : Task.Assigned.ToString();
-                string? started = Task.Started == null ? String.Empty : Task.Started.ToString();
-                string? prSent = Task.PrSent == null ? String.Empty : Task.PrSent.ToString();
-                string? merged = Task.Merged == null ? String.Empty : Task.Merged.ToString();
-                string? closed = Task.Closed == null ? String.Empty : Task.Closed.ToString();
-                string? done = Task.Done == null ? String.Empty : Task.Done.ToString();
-                string? status = Task.Status.ToString();
-                string? note = noteTextBox.Text;
-                NewTask = new Task(id,
-                    name,
-                    assigned!,
-                    started!,
-                    prSent!,
-                    merged!,
-                    closed!,
-                    done!,
-                    status!,
-                    deadline!,
-                    note!);
+                newTask = editTaskFormBusiness.EditTask(taskIdTextBox.Text, taskNameTextBox.Text, deadlineDatePicker.Text, noteTextBox.Text);
             }
             catch (InvalidIdOrNameException)
             {
@@ -72,6 +54,7 @@ namespace TManager
                 return;
             }
             DialogResult = DialogResult.OK;
+            NewTask = newTask;
             Close();
         }
     }

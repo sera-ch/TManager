@@ -1,14 +1,22 @@
-﻿using TManager.error;
-using TManager.util;
+﻿using TManager.business;
+using TManager.error;
+using TManager.repository;
+using TManager.service;
 using Task = TManager.entity.Task;
-using TaskStatus = TManager.entity.TaskStatus;
+using User = TManager.entity.User;
 
 namespace TManager
 {
     public partial class AddTasksForm : Form
     {
-        public AddTasksForm()
+
+        private AddTaskFormBusiness addTaskFormBusiness;
+        public User User { get; set; }
+        public Task Response { get; set; }
+        public AddTasksForm(User user)
         {
+            this.User = user;
+            addTaskFormBusiness = new AddTaskFormBusiness(new TaskServiceImpl(new TaskRepository()), User);
             InitializeComponent();
         }
 
@@ -19,19 +27,10 @@ namespace TManager
 
         private void addTaskButton_Click(object sender, EventArgs e)
         {
+            Task? newTask = null;
             try
             {
-                string id = taskIdTextBox.Text;
-                string name = taskNameTextBox.Text;
-                TaskValidator.ValidateIdAndName(id, name);
-                TaskValidator.ValidateExistingTask(id, name);
-                string deadline = deadlineDatePicker.Text;
-                TaskValidator.ValidateDeadline(deadline);
-                string assigned = DateUtil.Today().ToString();
-                string note = noteTextBox.Text;
-                Task newTask = new Task(id, name, assigned, "", "", "", "", "", TaskStatus.TODO.ToString(), deadline, note);
-                MainWindow.TaskList.Add(newTask);
-                FileUtil.WriteTaskToFile(MainWindow.SaveFile, newTask);
+                newTask = addTaskFormBusiness.AddTask(taskIdTextBox.Text, taskNameTextBox.Text, deadlineDatePicker.Text, noteTextBox.Text);
             }
             catch (InvalidIdOrNameException)
             {
@@ -49,6 +48,7 @@ namespace TManager
                 return;
             }
             this.DialogResult = DialogResult.OK;
+            this.Response = newTask;
             this.Close();
         }
     }

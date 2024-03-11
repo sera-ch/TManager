@@ -1,4 +1,6 @@
-﻿using TManager.util;
+﻿using TManager.business;
+using TManager.repository;
+using TManager.service;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
 
@@ -8,12 +10,19 @@ namespace TManager
     {
         public Task SelectedTask { get; set; }
         public List<Task> TaskList { get; set; }
-        public FullTaskListForm()
+
+        public List<Task> ShowedTasks { get; set; }
+
+        private FullTaskListFormBusiness FullTaskListFormBusiness;
+        private int UserId;
+        public FullTaskListForm(int userId)
         {
             InitializeComponent();
-            List<Task> tasks = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
-            TaskList = tasks;
-            fullTaskListView.DataSource = TaskList;
+            UserId = userId;
+            FullTaskListFormBusiness = new FullTaskListFormBusiness(UserId, new TaskServiceImpl(new TaskRepository()));
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
+            ShowedTasks = TaskList;
+            fullTaskListView.DataSource = ShowedTasks;
             SelectedTask = null;
             startWorkingButton.Enabled = false;
             codeReviewButton.Enabled = false;
@@ -29,57 +38,8 @@ namespace TManager
             {
                 return;
             }
-            selectTask();
+            SelectedTask = FullTaskListFormBusiness.selectTask(fullTaskListView);
             updateButtons();
-        }
-
-        private void updateTaskStatusAndRefreshTaskList(TaskStatus newStatus)
-        {
-            SelectedTask.Status = newStatus;
-            Task? updatedTask = TaskList.Find(task => task.Id == SelectedTask.Id && task.Name == SelectedTask.Name);
-            if (updatedTask == null)
-            {
-                return;
-            }
-            updatedTask.Status = newStatus;
-            switch (newStatus)
-            {
-                case TaskStatus.IN_PROGRESS: updatedTask.Started = DateUtil.Today(); break;
-                case TaskStatus.CODE_REVIEW: updatedTask.PrSent = DateUtil.Today(); break;
-                case TaskStatus.CLOSED: updatedTask.Closed = DateUtil.Today(); break;
-                case TaskStatus.MERGED: updatedTask.Merged = DateUtil.Today(); break;
-                case TaskStatus.DONE: updatedTask.Done = DateUtil.Today(); break;
-            }
-            string updatedTaskStr = updatedTask.ToDataString();
-            FileUtil.EditLine(MainWindow.SaveFile, updatedTask.GetSearchKey(), updatedTaskStr);
-            RefreshTaskList();
-            UpdateDeadlineFormatting();
-            updateButtons();
-        }
-
-        private void selectTask()
-        {
-            string? id = (string)fullTaskListView.SelectedRows[0].Cells[0].Value;
-            string? name = (string)fullTaskListView.SelectedRows[0].Cells[1].Value;
-            DateOnly? assigned = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[2].Value;
-            DateOnly? started = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[3].Value;
-            DateOnly? prSent = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[4].Value;
-            DateOnly? merged = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[5].Value;
-            DateOnly? closed = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[6].Value;
-            DateOnly? done = (DateOnly?)fullTaskListView.SelectedRows[0].Cells[7].Value;
-            TaskStatus status = (TaskStatus)fullTaskListView.SelectedRows[0].Cells[8].Value;
-            DateOnly deadline = (DateOnly)fullTaskListView.SelectedRows[0].Cells[9].Value;
-            string note = (string)fullTaskListView.SelectedRows[0].Cells[10].Value;
-            SelectedTask = new Task(id, name,
-                assigned == null ? "" : assigned.Value.ToString(),
-                started == null ? "" : started.Value.ToString(),
-                prSent == null ? "" : prSent.Value.ToString(),
-                merged == null ? "" : merged.Value.ToString(),
-                closed == null ? "" : closed.Value.ToString(),
-                done == null ? "" : done.Value.ToString(),
-                status.ToString(),
-                deadline.ToString(),
-                note);
         }
 
         private void updateButtons()
@@ -215,94 +175,75 @@ namespace TManager
                 updateTaskMenuItem.Enabled = true;
                 deleteTaskMenuItem.Enabled = true;
                 fullTaskListView.Rows[hitTest.RowIndex].Selected = true;
-                selectTask();
+                SelectedTask = FullTaskListFormBusiness.selectTask(fullTaskListView);
                 updateContextMenuItems();
+                updateButtons();
             }
         }
 
         private void changeStatusToInProgressItem_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.IN_PROGRESS);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToCodeReviewItem_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.CODE_REVIEW);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToMergedItem_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.MERGED);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToClosedItem_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.CLOSED);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToDoneItem_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.DONE);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void startWorkingButton_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.IN_PROGRESS);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void codeReviewButton_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.CODE_REVIEW);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void mergeButton_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.MERGED);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.CLOSED);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void doneButton_Click(object sender, EventArgs e)
         {
-            updateTaskStatusAndRefreshTaskList(TaskStatus.DONE);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            MainWindow.TaskList = ShowedTasks;
         }
 
         private void taskDeleteButton_Click(object sender, EventArgs e)
         {
             ConfirmAndDelete();
-        }
-
-        private void deleteTaskAndRefreshTaskList(Task selectedTask)
-        {
-            FileUtil.DeleteLine(MainWindow.SaveFile, selectedTask.GetSearchKey());
-            RefreshTaskList();
-        }
-
-        private void RefreshTaskList()
-        {
-            TaskList = FileUtil.ReadFileToTaskList(MainWindow.SaveFile);
-            List<Task> selectedTasks = QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
-            fullTaskListView.Refresh();
-            MainWindow.TaskList = TaskList;
-            if (selectedTasks.Count > 0)
-            {
-                SelectedTask = selectedTasks[0];
-            }
-            updateButtons();
-        }
-
-        private void RefreshTaskList(List<Task> newTaskList)
-        {
-            fullTaskListView.DataSource = newTaskList;
-            fullTaskListView.Refresh();
-            if (newTaskList.Count > 0)
-            {
-                SelectedTask = newTaskList[0];
-            }
-            updateButtons();
         }
 
         private void deleteTaskMenuItem_Click(object sender, EventArgs e)
@@ -315,67 +256,32 @@ namespace TManager
             DialogResult result = MessageBox.Show("Task will be deleted permanently! Do you want to proceed?", "Confirm delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                deleteTaskAndRefreshTaskList(SelectedTask);
+                TaskList = FullTaskListFormBusiness.deleteTaskAndRefreshTaskList(TaskList, fullTaskListView, out fullTaskListView, SelectedTask.Id, StatusComboBox.Text, SearchTextBox.Text);
+                MainWindow.TaskList = TaskList;
             }
         }
 
         private void updateTaskMenuItem_Click(object sender, EventArgs e)
         {
-            EditTaskForm editTaskForm = new EditTaskForm(SelectedTask);
+            EditTaskForm editTaskForm = new EditTaskForm(SelectedTask, MainWindow.User);
             DialogResult result = editTaskForm.ShowDialog();
             if (result == DialogResult.OK)
             {
                 Task oldTask = editTaskForm.Task;
                 Task newTask = editTaskForm.NewTask;
-                updateTaskAndRefreshList(oldTask, newTask);
-            }
-        }
-
-        private void updateTaskAndRefreshList(Task oldTask, Task newTask)
-        {
-            string updatedTaskStr = newTask.ToDataString();
-            FileUtil.EditLine(MainWindow.SaveFile, oldTask.GetSearchKey(), updatedTaskStr);
-            RefreshTaskList();
-            UpdateDeadlineFormatting();
-            updateButtons();
-        }
-
-        private void UpdateDeadlineFormatting()
-        {
-            if (fullTaskListView.Rows.Count == 0)
-            {
-                return;
-            }
-            foreach (DataGridViewRow row in fullTaskListView.Rows)
-            {
-                TaskStatus status = (TaskStatus)row.Cells[8].Value;
-                if (status != TaskStatus.TODO && status != TaskStatus.IN_PROGRESS)
-                {
-                    continue;
-                }
-                DateOnly deadline = (DateOnly)row.Cells[9].Value;
-                if (deadline == DateUtil.Tomorrow())
-                {
-                    row.Cells[9].Style.BackColor = Color.Orange;
-                    continue;
-                }
-                if (deadline <= DateUtil.Today())
-                {
-                    row.Cells[9].Style.BackColor = Color.Red;
-                    row.Cells[9].Style.ForeColor = Color.White;
-                }
+                FullTaskListFormBusiness.updateTaskAndRefreshList(oldTask, newTask, TaskList, fullTaskListView, out fullTaskListView, SearchTextBox.Text, StatusComboBox.SelectedText);
             }
         }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = new AddTasksForm().ShowDialog();
+            DialogResult result = new AddTasksForm(MainWindow.User).ShowDialog();
             if (result == DialogResult.Cancel)
             {
                 return;
             }
-            RefreshTaskList();
-            UpdateDeadlineFormatting();
+            FullTaskListFormBusiness.RefreshTaskList(fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            updateButtons();
         }
 
         private void FullTaskListForm_Load(object sender, EventArgs e)
@@ -383,25 +289,17 @@ namespace TManager
             List<string> statuses = [""];
             statuses = statuses.Concat(Enum.GetNames(typeof(TaskStatus))).ToList();
             StatusComboBox.DataSource = statuses;
-            UpdateDeadlineFormatting();
+            FullTaskListFormBusiness.UpdateDeadlineFormatting(fullTaskListView, out fullTaskListView);
         }
 
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.QueryTasks(TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
         }
 
         private void StatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            QueryTasks(SearchTextBox.Text, StatusComboBox.Text);
-        }
-
-        private List<Task> QueryTasks(string idOrName, string status)
-        {
-            List<Task> selectedTasks = TaskList.FindAll(task => task.IsMatch(status, SearchTextBox.Text));
-            RefreshTaskList(selectedTasks);
-            UpdateDeadlineFormatting();
-            return selectedTasks;
+            ShowedTasks = FullTaskListFormBusiness.QueryTasks(TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
         }
     }
 }
