@@ -30,9 +30,12 @@ namespace TManager.service
             TaskRepository.Delete(taskId);
         }
 
+<<<<<<< HEAD
         public bool ExistsByIdAndName(string taskId, string name)
         {
             return TaskRepository.ExistsByIdAndName(taskId, name);
         }
+=======
+>>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
     }
 }
