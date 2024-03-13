@@ -48,15 +48,11 @@ namespace TManager
             {
                 return;
             }
-<<<<<<< HEAD
             if (addTaskForm.Response != null)
             {
                 TaskList.Add(addTaskForm.Response);
             }
             MainWindowBusiness.RefreshTaskListView(TaskList, taskListView, out taskListView);
-=======
-            MainWindowBusiness.RefreshTaskListView(TaskList, out taskListView);
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
         }
 
         private void dailyReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,13 +62,8 @@ namespace TManager
 
         private void taskListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             new FullTaskListForm(User.Id).ShowDialog();
             MainWindowBusiness.RefreshTaskListView(TaskList, taskListView, out taskListView);
-=======
-            new FullTaskListForm().ShowDialog();
-            MainWindowBusiness.RefreshTaskListView(TaskList, out taskListView);
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
         }
     }
 }

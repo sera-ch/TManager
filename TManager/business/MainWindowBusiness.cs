@@ -1,9 +1,6 @@
 ﻿using TManager.entity;
 using TManager.service;
-<<<<<<< HEAD
 using TManager.service.dto;
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -46,13 +43,10 @@ namespace TManager.business
             outTaskListView = taskListView;
             foreach (DataGridViewRow row in outTaskListView.Rows)
             {
-<<<<<<< HEAD
                 if (row.Cells[1].Value == null || row.Cells[2].Value == null)
                 {
                     continue;
                 }
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
                 DateOnly deadline = (DateOnly)row.Cells[2].Value;
                 TaskStatus status = (TaskStatus)row.Cells[1].Value;
                 if (deadline == DateUtil.Tomorrow() && status != TaskStatus.CODE_REVIEW)
@@ -87,19 +81,11 @@ namespace TManager.business
             return welcomeMessage;
         }
 
-<<<<<<< HEAD
         public void RefreshTaskListView(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView)
         {
             List<Task> tasksInProgress = taskList.FindAll(task => !task.IsDone());
             outTaskListView = taskListView;
             outTaskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
-=======
-        public void RefreshTaskListView(List<Task> TaskList, out DataGridView taskListView)
-        {
-            List<Task> tasksInProgress = TaskList.FindAll(task => !task.IsDone());
-            taskListView = new DataGridView();
-            taskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
             UpdateDeadlineFormatting(taskListView, out taskListView);
         }
     }

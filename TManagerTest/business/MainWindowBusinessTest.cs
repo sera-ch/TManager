@@ -1,17 +1,11 @@
 ﻿using Moq;
-<<<<<<< HEAD
 using System.Drawing;
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
 using System.Windows.Forms;
 using TManager.business;
 using TManager.entity;
 using TManager.error;
 using TManager.service;
-<<<<<<< HEAD
 using TManager.service.dto;
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -104,7 +98,6 @@ namespace TManagerTest.business
             Assert.That(((List<TaskView>)taskListView.DataSource).Count, Is.EqualTo(newTaskList.Count));
         }
 
-<<<<<<< HEAD
         [Test(Description = "UpdateDeadlineFormatting success should update deadline formatting")]
         public void UpdateDeadlineFormatting_Success_ShouldUpdateDeadlineFormatting()
         {
@@ -146,8 +139,6 @@ namespace TManagerTest.business
             Assert.That(taskListView.Rows[4].Cells[2].Style.BackColor, Is.EqualTo(Color.Empty));
         }
 
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
         [Test(Description = "WelcomeMessage success should return welcome message")]
         public void WelcomeMessage_Success_ShouldReturnWelcomeMessage()
         {
@@ -167,12 +158,8 @@ namespace TManagerTest.business
             Task dueAfterTomorrowTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, status, dateAfterTomorrow, note);
             Task inReviewTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, TaskStatus.CODE_REVIEW.ToString(), dateAfterTomorrow, note);
             List<Task> tasks = new List<Task> { dueTodayTask, dueTomorrowTask, dueAfterTomorrowTask, overdueTask, inReviewTask };
-<<<<<<< HEAD
             string welcomeMessage = "Welcome! Today is " +
                 DateUtil.Today().ToString() + ".\n" +
-=======
-            string welcomeMessage = "Welcome! Today is 3/11/2024.\n" +
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
                 "You have 1 task(s) due today\n" +
                 "You have 1 task(s) due tomorrow\n" +
                 "You have 1 task(s) overdue\n" +
@@ -185,7 +172,6 @@ namespace TManagerTest.business
             Assert.That(actual, Is.EqualTo(welcomeMessage));
         }
 
-<<<<<<< HEAD
         [Test(Description = "RefreshTaskListView success should update data source")]
         public void RefreshTaskListView_Success_ShouldUpdateDataSource()
         {
@@ -209,8 +195,5 @@ namespace TManagerTest.business
             // Assert
             Assert.That(taskListView.DataSource, Is.Not.Null);
         }
-
-=======
->>>>>>> 0e502141f256c07c2be5b5ff8b667f906c62e2c9
     }
 }
