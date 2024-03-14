@@ -5,6 +5,8 @@ namespace TManager.service
     public interface UserService
     {
         User GetUser(int id);
-        User SaveUser(User user);
+        User Register(User user);
+        User LogIn(string username, string password);
+        User? GetUserByUsername(string username);
     }
 }

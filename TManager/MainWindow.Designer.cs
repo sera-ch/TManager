@@ -36,6 +36,9 @@
             addTaskToolStripMenuItem = new ToolStripMenuItem();
             reportToolStripMenuItem = new ToolStripMenuItem();
             dailyReportToolStripMenuItem = new ToolStripMenuItem();
+            userToolStripMenuItem = new ToolStripMenuItem();
+            registerToolStripMenuItem = new ToolStripMenuItem();
+            switchUserToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)taskListView).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -56,7 +59,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { taskToolStripMenuItem, reportToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { userToolStripMenuItem, taskToolStripMenuItem, reportToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 24);
@@ -76,7 +79,7 @@
             taskListToolStripMenuItem.Name = "taskListToolStripMenuItem";
             taskListToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.L;
             taskListToolStripMenuItem.ShowShortcutKeys = false;
-            taskListToolStripMenuItem.Size = new Size(180, 22);
+            taskListToolStripMenuItem.Size = new Size(113, 22);
             taskListToolStripMenuItem.Text = "Task list";
             taskListToolStripMenuItem.Click += taskListToolStripMenuItem_Click;
             // 
@@ -85,7 +88,7 @@
             addTaskToolStripMenuItem.Name = "addTaskToolStripMenuItem";
             addTaskToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.A;
             addTaskToolStripMenuItem.ShowShortcutKeys = false;
-            addTaskToolStripMenuItem.Size = new Size(180, 22);
+            addTaskToolStripMenuItem.Size = new Size(113, 22);
             addTaskToolStripMenuItem.Text = "Add task";
             addTaskToolStripMenuItem.Click += addTaskToolStripMenuItem_Click;
             // 
@@ -103,6 +106,26 @@
             dailyReportToolStripMenuItem.Size = new Size(135, 22);
             dailyReportToolStripMenuItem.Text = "Daily report";
             dailyReportToolStripMenuItem.Click += dailyReportToolStripMenuItem_Click;
+            // 
+            // userToolStripMenuItem
+            // 
+            userToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { registerToolStripMenuItem, switchUserToolStripMenuItem });
+            userToolStripMenuItem.Name = "userToolStripMenuItem";
+            userToolStripMenuItem.Size = new Size(42, 20);
+            userToolStripMenuItem.Text = "User";
+            // 
+            // registerToolStripMenuItem
+            // 
+            registerToolStripMenuItem.Name = "registerToolStripMenuItem";
+            registerToolStripMenuItem.Size = new Size(180, 22);
+            registerToolStripMenuItem.Text = "Register";
+            registerToolStripMenuItem.Click += registerToolStripMenuItem_Click;
+            // 
+            // switchUserToolStripMenuItem
+            // 
+            switchUserToolStripMenuItem.Name = "switchUserToolStripMenuItem";
+            switchUserToolStripMenuItem.Size = new Size(180, 22);
+            switchUserToolStripMenuItem.Text = "Switch user";
             // 
             // MainWindow
             // 
@@ -133,5 +156,8 @@
         private ToolStripMenuItem addTaskToolStripMenuItem;
         private ToolStripMenuItem reportToolStripMenuItem;
         private ToolStripMenuItem dailyReportToolStripMenuItem;
+        private ToolStripMenuItem userToolStripMenuItem;
+        private ToolStripMenuItem registerToolStripMenuItem;
+        private ToolStripMenuItem switchUserToolStripMenuItem;
     }
 }

@@ -17,9 +17,19 @@ namespace TManager.service
             return userRepository.GetUser(id) ?? throw new UserNotFoundException(id);
         }
 
-        public virtual User SaveUser(User user)
+        public User Register(User user)
         {
             return userRepository.Save(user);
+        }
+
+        public User LogIn(string username, string password)
+        {
+            return null;
+        }
+
+        public virtual User? GetUserByUsername(string username)
+        {
+            return userRepository.GetByUserName(username);
         }
     }
 }

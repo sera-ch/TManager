@@ -51,7 +51,7 @@ namespace TManager.test
         }
 
         [Test(Description = "SaveUser success should return user")]
-        public void SaveUser_Success_ShouldReturnUser()
+        public void Register_Success_ShouldReturnUser()
         {
             // Arrange
             int userId = 1;
@@ -60,11 +60,43 @@ namespace TManager.test
             UserRepository.Setup(UserRepository => UserRepository.Save(user)).Returns(user);
 
             // Act
-            User actual = UserService.SaveUser(user);
+            User actual = UserService.Register(user);
 
             // Assert
             Assert.That(actual, Is.EqualTo(user));
             UserRepository.Verify(UserRepository => UserRepository.Save(user), Times.Once());
+        }
+
+        [Test(Description = "GetUserByUsername when not found should return null")]
+        public void GetUserByUsername_WhenNotFound_ShouldReturnNull()
+        {
+            // Arrange
+            string username = "e.kim.mai";
+
+            // Act
+            User? actual = UserService.GetUserByUsername(username);
+
+            // Assert
+            Assert.That(actual, Is.Null);
+            UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
+        }
+
+        [Test(Description = "GetUserByUsername when found should return user")]
+        public void GetUserByUsername_WhenFound_ShouldReturnUser()
+        {
+            // Arrange
+            int userId = 1;
+            string username = "e.kim.mai";
+            User user = new User(userId, username);
+            UserRepository.Setup(UserRepository => UserRepository.GetByUserName(username)).Returns(user);
+
+            // Act
+            User? actual = UserService.GetUserByUsername(username);
+
+            // Assert
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual, Is.EqualTo(user));
+            UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
         }
     }
 }

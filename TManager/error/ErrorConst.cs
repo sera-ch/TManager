@@ -14,6 +14,21 @@
         public const string INVALID_TASK_STATUS_ERROR_CODE = "000004";
         public const string INVALID_TASK_STATUS_ERROR_MESSAGE = "Invalid task status";
 
+        public const string DUPLICATE_USER_ERROR_CODE = "000005";
+        public const string DUPLICATE_USER_ERROR_MESSAGE = "There is already an user with that name";
+
+        public const string INVALID_PASSWORD_ERROR_CODE = "000006";
+        public const string INVALID_PASSWORD_ERROR_MESSAGE = "Password is too short";
+
+        public const string PASSWORD_NOT_MATCH_ERROR_CODE = "000007";
+        public const string PASSWORD_NOT_MATCH_ERROR_MESSAGE = "Password is not match";
+
+        public const string INVALID_USERNAME_OR_PASSWORD_ERROR_CODE = "000008";
+        public const string INVALID_USERNAME_OR_PASSWORD_ERROR_MESSAGE = "Invalid username or password";
+
+        public const string INVALID_USERNAME_ERROR_CODE = "000009";
+        public const string INVALID_USERNAME_ERROR_MESSAGE = "Username cannot be empty";
+
         public const string USER_NOT_FOUND_ERROR_CODE = "100000";
         public const string USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     }

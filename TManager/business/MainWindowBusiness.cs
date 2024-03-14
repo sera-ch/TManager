@@ -88,5 +88,6 @@ namespace TManager.business
             outTaskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
             UpdateDeadlineFormatting(taskListView, out taskListView);
         }
+
     }
 }

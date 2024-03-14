@@ -78,6 +78,7 @@
             // 
             passwordTextBox.Location = new Point(164, 130);
             passwordTextBox.Name = "passwordTextBox";
+            passwordTextBox.PasswordChar = '*';
             passwordTextBox.Size = new Size(249, 23);
             passwordTextBox.TabIndex = 4;
             // 
@@ -85,6 +86,7 @@
             // 
             repeatPasswordTextBox.Location = new Point(164, 196);
             repeatPasswordTextBox.Name = "repeatPasswordTextBox";
+            repeatPasswordTextBox.PasswordChar = '*';
             repeatPasswordTextBox.Size = new Size(249, 23);
             repeatPasswordTextBox.TabIndex = 5;
             // 
@@ -96,6 +98,7 @@
             registerButton.TabIndex = 6;
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
+            registerButton.Click += registerButton_Click;
             // 
             // loginButton
             // 

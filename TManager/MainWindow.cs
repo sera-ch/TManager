@@ -65,5 +65,10 @@ namespace TManager
             new FullTaskListForm(User.Id).ShowDialog();
             MainWindowBusiness.RefreshTaskListView(TaskList, taskListView, out taskListView);
         }
+
+        private void registerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new RegisterForm().ShowDialog();
+        }
     }
 }

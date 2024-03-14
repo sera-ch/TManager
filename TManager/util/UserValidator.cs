@@ -1,19 +1,28 @@
-﻿namespace TManager.util
+﻿using TManager.entity;
+using TManager.error;
+using TManager.service;
+
+namespace TManager.util
 {
     public class UserValidator
     {
         private const int MIN_PASSWORD_LENGTH = 6;
-        public UserValidator() { }
+
+        private UserService userService;
+        public UserValidator(UserService userService)
+        {
+            this.userService = userService;
+        }
 
         public void validatePassword(string password, string repeatPassword)
         {
             if (password.Length < MIN_PASSWORD_LENGTH)
             {
-                // TODO: Throw password too short error
+                throw new InvalidPasswordException();
             }
             if (!password.Equals(repeatPassword))
             {
-                // TODO: Throw password not match error
+                throw new PasswordNotMatchException();
             }
         }
 
@@ -21,7 +30,16 @@
         {
             if ("".Equals(username))
             {
-                // TODO: Throw invalid username
+                throw new InvalidUsernameException();
+            }
+        }
+
+        public void validateExistUser(string username)
+        {
+            User? existingUser = userService.GetUserByUsername(username);
+            if (existingUser != null)
+            {
+                throw new DuplicateUserException();
             }
         }
     }
