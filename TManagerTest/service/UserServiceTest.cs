@@ -98,5 +98,36 @@ namespace TManager.test
             Assert.That(actual, Is.EqualTo(user));
             UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
         }
+
+        [Test(Description = "LogIn when user is not found should throw UserNotFoundException")]
+        public void LogIn_WhenUserIsNotFound_ShouldThrowUserNotFoundException()
+        {
+            // Arrange
+            string username = "e.kim.mai";
+            string password = "123456";
+            UserRepository.Setup(UserRepository => UserRepository.GetByUserName(username)).Returns((User)null);
+
+            // Act and Assert
+            Assert.Throws(typeof(UserNotFoundException), () => UserService.LogIn(username, password));
+            UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
+        }
+
+        [Test(Description = "LogIn when found should return user")]
+        public void LogIn_WhenFound_ShouldReturnUser()
+        {
+            // Arrange
+            string username = "e.kim.mai";
+            string password = "123456";
+            User user = new User(username, password);
+            UserRepository.Setup(UserRepository => UserRepository.GetByUserName(username)).Returns(user);
+
+            // Act
+            User? actual = UserService.LogIn(username, password);
+
+            // Assert
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual, Is.EqualTo(user));
+            UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
+        }
     }
 }

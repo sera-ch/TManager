@@ -23,22 +23,22 @@ namespace TManager
                 this.Response = userBusiness.registerUser(usernameTextBox.Text, passwordTextBox.Text, repeatPasswordTextBox.Text);
                 this.DialogResult = DialogResult.OK;
             }
-            catch (InvalidUsernameException ex)
+            catch (InvalidUsernameException)
             {
                 MessageBox.Show(ErrorConst.INVALID_USERNAME_ERROR_MESSAGE, ErrorConst.INVALID_USERNAME_ERROR_CODE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (InvalidPasswordException ex)
+            catch (InvalidPasswordException)
             {
                 MessageBox.Show(ErrorConst.INVALID_PASSWORD_ERROR_MESSAGE, ErrorConst.INVALID_PASSWORD_ERROR_CODE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (PasswordNotMatchException ex)
+            catch (PasswordNotMatchException)
             {
                 MessageBox.Show(ErrorConst.PASSWORD_NOT_MATCH_ERROR_MESSAGE, ErrorConst.PASSWORD_NOT_MATCH_ERROR_CODE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (DuplicateUserException ex)
+            catch (DuplicateUserException)
             {
                 MessageBox.Show(ErrorConst.DUPLICATE_USER_ERROR_MESSAGE, ErrorConst.DUPLICATE_USER_ERROR_CODE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);

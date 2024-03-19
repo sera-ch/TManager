@@ -24,7 +24,7 @@ namespace TManager.service
 
         public User LogIn(string username, string password)
         {
-            return null;
+            return userRepository.GetByUserName(username) ?? throw new UserNotFoundException(username);
         }
 
         public virtual User? GetUserByUsername(string username)

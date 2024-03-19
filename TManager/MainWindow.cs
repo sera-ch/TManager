@@ -1,6 +1,5 @@
 ﻿using TManager.business;
 using TManager.entity;
-using TManager.error;
 using TManager.repository;
 using TManager.service;
 using TManager.util;
@@ -19,25 +18,16 @@ namespace TManager
             UserService userService = new UserServiceImpl(new UserRepository());
             FileUtil fileUtil = new FileUtil();
             MainWindowBusiness = new MainWindowBusiness(userService, taskService, fileUtil);
-            try
-            {
-                User = MainWindowBusiness.GetCurrentUser();
-            }
-            catch (UserNotFoundException e)
-            {
-                // TODO: Make user select an user or input new user to continue
-                MessageBox.Show(ErrorConst.USER_NOT_FOUND_ERROR_MESSAGE, ErrorConst.USER_NOT_FOUND_ERROR_MESSAGE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             InitializeComponent();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
             List<Task> tasks;
+            showLogInForm();
             MainWindowBusiness.InitiateTaskListView(User.Id, taskListView, out tasks, out taskListView);
             TaskList = tasks;
             MainWindowBusiness.UpdateDeadlineFormatting(taskListView, out taskListView);
-            MessageBox.Show(MainWindowBusiness.WelcomeMessage(TaskList), "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void addTaskToolStripMenuItem_Click(object sender, EventArgs e)
@@ -69,6 +59,35 @@ namespace TManager
         private void registerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new RegisterForm().ShowDialog();
+        }
+
+        private void switchUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showLogInForm();
+        }
+
+        private void showLogInForm()
+        {
+
+            LogInForm logInForm = new LogInForm(User);
+            DialogResult result = logInForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                User = logInForm.Response;
+                List<Task> tasks = TaskList;
+                MainWindowBusiness.InitiateTaskListView(User.Id, taskListView, out tasks, out taskListView);
+                TaskList = tasks;
+                showWelcomeMessage();
+            }
+            if (User == null)
+            {
+                Environment.Exit(0);
+            }
+        }
+
+        private void showWelcomeMessage()
+        {
+            MessageBox.Show(MainWindowBusiness.WelcomeMessage(TaskList, User.Name), "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

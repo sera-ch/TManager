@@ -31,14 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             taskListView = new DataGridView();
             menuStrip1 = new MenuStrip();
+            userToolStripMenuItem = new ToolStripMenuItem();
+            registerToolStripMenuItem = new ToolStripMenuItem();
+            switchUserToolStripMenuItem = new ToolStripMenuItem();
             taskToolStripMenuItem = new ToolStripMenuItem();
             taskListToolStripMenuItem = new ToolStripMenuItem();
             addTaskToolStripMenuItem = new ToolStripMenuItem();
             reportToolStripMenuItem = new ToolStripMenuItem();
             dailyReportToolStripMenuItem = new ToolStripMenuItem();
-            userToolStripMenuItem = new ToolStripMenuItem();
-            registerToolStripMenuItem = new ToolStripMenuItem();
-            switchUserToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)taskListView).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -65,6 +65,27 @@
             menuStrip1.Size = new Size(800, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
+            // 
+            // userToolStripMenuItem
+            // 
+            userToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { registerToolStripMenuItem, switchUserToolStripMenuItem });
+            userToolStripMenuItem.Name = "userToolStripMenuItem";
+            userToolStripMenuItem.Size = new Size(42, 20);
+            userToolStripMenuItem.Text = "User";
+            // 
+            // registerToolStripMenuItem
+            // 
+            registerToolStripMenuItem.Name = "registerToolStripMenuItem";
+            registerToolStripMenuItem.Size = new Size(180, 22);
+            registerToolStripMenuItem.Text = "Register";
+            registerToolStripMenuItem.Click += registerToolStripMenuItem_Click;
+            // 
+            // switchUserToolStripMenuItem
+            // 
+            switchUserToolStripMenuItem.Name = "switchUserToolStripMenuItem";
+            switchUserToolStripMenuItem.Size = new Size(180, 22);
+            switchUserToolStripMenuItem.Text = "Switch user";
+            switchUserToolStripMenuItem.Click += switchUserToolStripMenuItem_Click;
             // 
             // taskToolStripMenuItem
             // 
@@ -106,26 +127,6 @@
             dailyReportToolStripMenuItem.Size = new Size(135, 22);
             dailyReportToolStripMenuItem.Text = "Daily report";
             dailyReportToolStripMenuItem.Click += dailyReportToolStripMenuItem_Click;
-            // 
-            // userToolStripMenuItem
-            // 
-            userToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { registerToolStripMenuItem, switchUserToolStripMenuItem });
-            userToolStripMenuItem.Name = "userToolStripMenuItem";
-            userToolStripMenuItem.Size = new Size(42, 20);
-            userToolStripMenuItem.Text = "User";
-            // 
-            // registerToolStripMenuItem
-            // 
-            registerToolStripMenuItem.Name = "registerToolStripMenuItem";
-            registerToolStripMenuItem.Size = new Size(180, 22);
-            registerToolStripMenuItem.Text = "Register";
-            registerToolStripMenuItem.Click += registerToolStripMenuItem_Click;
-            // 
-            // switchUserToolStripMenuItem
-            // 
-            switchUserToolStripMenuItem.Name = "switchUserToolStripMenuItem";
-            switchUserToolStripMenuItem.Size = new Size(180, 22);
-            switchUserToolStripMenuItem.Text = "Switch user";
             // 
             // MainWindow
             // 

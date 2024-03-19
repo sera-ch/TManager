@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using TManager.business;
 using TManager.entity;
-using TManager.error;
 using TManager.service;
 using TManager.service.dto;
 using TManager.util;
@@ -27,44 +26,6 @@ namespace TManagerTest.business
             TaskService = new Mock<TaskService>();
             FileUtil = new Mock<FileUtil>();
             MainWindowBusiness = new MainWindowBusiness(UserService.Object, TaskService.Object, FileUtil.Object);
-        }
-
-        [Test(Description = "GetCurrentUser not found should throw UserNotFoundException")]
-        public void GetCurrentUser_NotFound_ShouldThrowUserNotFoundException()
-        {
-            // Arrange
-            int userId = 1;
-            string username = "e.kim.mai";
-            Configuration config = new Configuration(userId.ToString());
-            User user = new User(userId, username);
-            FileUtil.Setup(fileUtil => fileUtil.ReadConfigurationFromFile()).Returns(config);
-            UserService.Setup(userService => userService.GetUser(userId)).Throws(new UserNotFoundException(userId));
-
-            // Act and Assert
-            UserNotFoundException thrown = Assert.Throws<UserNotFoundException>(() => MainWindowBusiness.GetCurrentUser());
-            Assert.That(thrown.UserId, Is.EqualTo(userId));
-            FileUtil.Verify(fileUtil => fileUtil.ReadConfigurationFromFile(), Times.Once);
-            UserService.Verify(userService => userService.GetUser(userId), Times.Once);
-        }
-
-        [Test(Description = "GetCurrentUser found should return user")]
-        public void GetCurrentUser_Found_ShouldReturnUser()
-        {
-            // Arrange
-            int userId = 1;
-            string username = "e.kim.mai";
-            Configuration config = new Configuration(userId.ToString());
-            User user = new User(userId, username);
-            FileUtil.Setup(fileUtil => fileUtil.ReadConfigurationFromFile()).Returns(config);
-            UserService.Setup(userService => userService.GetUser(userId)).Returns(user);
-
-            // Act
-            User actual = MainWindowBusiness.GetCurrentUser();
-
-            // Assert
-            Assert.That(actual, Is.EqualTo(user));
-            FileUtil.Verify(fileUtil => fileUtil.ReadConfigurationFromFile(), Times.Once);
-            UserService.Verify(userService => userService.GetUser(userId), Times.Once);
         }
 
         [Test(Description = "InitiateTaskListView success should output taskListView")]
@@ -143,6 +104,7 @@ namespace TManagerTest.business
         public void WelcomeMessage_Success_ShouldReturnWelcomeMessage()
         {
             // Arrange
+            string username = "e.kim.m";
             string taskId = "test_id";
             string taskId2 = "test_id_2";
             string taskName = "test_name";
@@ -158,7 +120,7 @@ namespace TManagerTest.business
             Task dueAfterTomorrowTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, status, dateAfterTomorrow, note);
             Task inReviewTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, TaskStatus.CODE_REVIEW.ToString(), dateAfterTomorrow, note);
             List<Task> tasks = new List<Task> { dueTodayTask, dueTomorrowTask, dueAfterTomorrowTask, overdueTask, inReviewTask };
-            string welcomeMessage = "Welcome! Today is " +
+            string welcomeMessage = "Welcome" + username + "! Today is " +
                 DateUtil.Today().ToString() + ".\n" +
                 "You have 1 task(s) due today\n" +
                 "You have 1 task(s) due tomorrow\n" +
@@ -166,7 +128,7 @@ namespace TManagerTest.business
                 "You have 1 task(s) in review.";
 
             // Act
-            string actual = MainWindowBusiness.WelcomeMessage(tasks);
+            string actual = MainWindowBusiness.WelcomeMessage(tasks, username);
 
             // Assert
             Assert.That(actual, Is.EqualTo(welcomeMessage));

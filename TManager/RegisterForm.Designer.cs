@@ -36,7 +36,6 @@
             passwordTextBox = new MaskedTextBox();
             repeatPasswordTextBox = new MaskedTextBox();
             registerButton = new Button();
-            loginButton = new Button();
             SuspendLayout();
             // 
             // userNameLabel
@@ -71,11 +70,12 @@
             usernameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             usernameTextBox.Location = new Point(164, 61);
             usernameTextBox.Name = "usernameTextBox";
-            usernameTextBox.Size = new Size(296, 23);
+            usernameTextBox.Size = new Size(305, 23);
             usernameTextBox.TabIndex = 3;
             // 
             // passwordTextBox
             // 
+            passwordTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             passwordTextBox.Location = new Point(164, 130);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
@@ -84,6 +84,7 @@
             // 
             // repeatPasswordTextBox
             // 
+            repeatPasswordTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             repeatPasswordTextBox.Location = new Point(164, 196);
             repeatPasswordTextBox.Name = "repeatPasswordTextBox";
             repeatPasswordTextBox.PasswordChar = '*';
@@ -92,7 +93,8 @@
             // 
             // registerButton
             // 
-            registerButton.Location = new Point(111, 284);
+            registerButton.Anchor = AnchorStyles.Top;
+            registerButton.Location = new Point(231, 266);
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(75, 23);
             registerButton.TabIndex = 6;
@@ -100,23 +102,12 @@
             registerButton.UseVisualStyleBackColor = true;
             registerButton.Click += registerButton_Click;
             // 
-            // loginButton
-            // 
-            loginButton.Location = new Point(324, 284);
-            loginButton.Name = "loginButton";
-            loginButton.Size = new Size(75, 23);
-            loginButton.TabIndex = 7;
-            loginButton.Text = "Log in";
-            loginButton.UseVisualStyleBackColor = true;
-            // 
             // RegisterForm
             // 
             AcceptButton = registerButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = loginButton;
-            ClientSize = new Size(526, 351);
-            Controls.Add(loginButton);
+            ClientSize = new Size(535, 320);
             Controls.Add(registerButton);
             Controls.Add(repeatPasswordTextBox);
             Controls.Add(passwordTextBox);
@@ -144,6 +135,5 @@
         private MaskedTextBox passwordTextBox;
         private MaskedTextBox repeatPasswordTextBox;
         private Button registerButton;
-        private Button loginButton;
     }
 }

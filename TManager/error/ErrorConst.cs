@@ -23,13 +23,16 @@
         public const string PASSWORD_NOT_MATCH_ERROR_CODE = "000007";
         public const string PASSWORD_NOT_MATCH_ERROR_MESSAGE = "Password is not match";
 
-        public const string INVALID_USERNAME_OR_PASSWORD_ERROR_CODE = "000008";
-        public const string INVALID_USERNAME_OR_PASSWORD_ERROR_MESSAGE = "Invalid username or password";
+        public const string INCORRECT_PASSWORD_ERROR_CODE = "000008";
+        public const string INCORRECT_PASSWORD_ERROR_MESSAGE = "Incorrect password";
 
         public const string INVALID_USERNAME_ERROR_CODE = "000009";
         public const string INVALID_USERNAME_ERROR_MESSAGE = "Username cannot be empty";
 
         public const string USER_NOT_FOUND_ERROR_CODE = "100000";
         public const string USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
+
+        public const string ALREADY_LOGGED_IN_USER_ERROR_CODE = "100001";
+        public const string ALREADY_LOGGED_IN_USER_ERROR_MESSAGE = "User is already logged in";
     }
 }

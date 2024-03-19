@@ -62,17 +62,18 @@ namespace TManager.business
             }
         }
 
-        public string WelcomeMessage(List<Task> TaskList)
+        public string WelcomeMessage(List<Task> TaskList, string username)
         {
             int tasksInReview = TaskList.FindAll(task => task.Status == TaskStatus.CODE_REVIEW).Count();
             int tasksDueToday = TaskList.FindAll(task => task.Deadline == DateUtil.Today() && task.IsWip()).Count();
             int tasksDueTomorrow = TaskList.FindAll(task => task.Deadline == DateUtil.Tomorrow() && task.IsWip()).Count();
             int tasksOverdue = TaskList.FindAll(task => task.Deadline < DateUtil.Today() && task.IsWip()).Count();
-            string welcomeMessage = string.Format("Welcome! Today is {0}.\n" +
-                "You have {1} task(s) due today\n" +
-                "You have {2} task(s) due tomorrow\n" +
-                "You have {3} task(s) overdue\n" +
-                "You have {4} task(s) in review.",
+            string welcomeMessage = string.Format("Welcome {0}! Today is {1}.\n" +
+                "You have {2} task(s) due today\n" +
+                "You have {3} task(s) due tomorrow\n" +
+                "You have {4} task(s) overdue\n" +
+                "You have {5} task(s) in review.",
+                username,
                 DateUtil.Today().ToString(),
                 tasksDueToday,
                 tasksDueTomorrow,

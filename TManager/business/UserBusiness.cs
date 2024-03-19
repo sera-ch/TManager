@@ -1,4 +1,5 @@
 ﻿using TManager.entity;
+using TManager.error;
 using TManager.service;
 using TManager.util;
 
@@ -28,10 +29,24 @@ namespace TManager.business
             return UserService.Register(user);
         }
 
-        public User logIn(string username, string password)
+        public User logIn(string username, string password, User? currentLoggedInUser)
         {
+            userValidator.validateUsername(username);
+            if (currentLoggedInUser != null && username == currentLoggedInUser.Name)
+            {
+                throw new AlreadyLoggedInUserException();
+            }
+            User? existingUser = UserService.GetUserByUsername(username);
+            if (existingUser == null)
+            {
+                throw new UserNotFoundException(username);
+            }
             byte[] key = encryptionUtil.CreateKey(password);
             string encryptedPassword = encryptionUtil.Encrypt(password, key);
+            if (encryptedPassword != existingUser.Password)
+            {
+                throw new IncorrectPasswordException();
+            }
             return UserService.LogIn(username, encryptedPassword);
         }
     }
