@@ -43,6 +43,7 @@ namespace TManagerTest.business
             task.Name == taskName &&
             task.Deadline.ToString() == deadline &&
             task.Note == note)));
+            taskService.VerifyNoOtherCalls();
         }
 
     }

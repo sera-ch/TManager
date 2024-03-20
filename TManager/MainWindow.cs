@@ -42,7 +42,7 @@ namespace TManager
             {
                 TaskList.Add(addTaskForm.Response);
             }
-            MainWindowBusiness.RefreshTaskListView(TaskList, taskListView, out taskListView);
+            MainWindowBusiness.RefreshTaskListView(User.Id, taskListView, out taskListView);
         }
 
         private void dailyReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace TManager
         private void taskListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new FullTaskListForm(User.Id).ShowDialog();
-            MainWindowBusiness.RefreshTaskListView(TaskList, taskListView, out taskListView);
+            MainWindowBusiness.RefreshTaskListView(User.Id, taskListView, out taskListView);
         }
 
         private void registerToolStripMenuItem_Click(object sender, EventArgs e)

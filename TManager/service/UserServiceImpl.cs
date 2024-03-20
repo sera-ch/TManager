@@ -31,5 +31,10 @@ namespace TManager.service
         {
             return userRepository.GetByUserName(username);
         }
+
+        public virtual List<User> GetAllUsers()
+        {
+            return userRepository.GetAll();
+        }
     }
 }

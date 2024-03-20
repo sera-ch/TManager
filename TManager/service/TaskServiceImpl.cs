@@ -20,9 +20,9 @@ namespace TManager.service
             return TaskRepository.Save(task);
         }
 
-        public virtual void UpdateTask(string oldTaskId, Task newTask)
+        public virtual void UpdateTask(Task oldTask, Task newTask)
         {
-            TaskRepository.PartialUpdate(oldTaskId, newTask);
+            TaskRepository.PartialUpdate(oldTask, newTask);
         }
 
         public virtual void DeleteTask(string taskId)

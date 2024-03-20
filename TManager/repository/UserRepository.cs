@@ -17,8 +17,7 @@ namespace TManager.repository
             {
                 connection.Open();
                 SQLiteCommand cmd = connection.CreateCommand();
-                cmd.CommandText = string.Format("INSERT INTO users(id, name, password) VALUES ('{0}', '{1}', '{2}')",
-                    user.Id,
+                cmd.CommandText = string.Format("INSERT INTO users(name, password) VALUES ('{0}', '{1}')",
                     user.Name,
                     user.Password);
                 cmd.ExecuteNonQuery();
@@ -61,6 +60,28 @@ namespace TManager.repository
                     User user = new User(reader.GetInt16(0), reader.GetString(1));
                     user.Password = reader.GetString(2);
                     return user;
+                }
+            }
+        }
+
+
+
+        public virtual List<User> GetAll()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                connection.Open();
+                SQLiteCommand cmd = connection.CreateCommand();
+                cmd.CommandText = string.Format("SELECT * FROM users");
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    List<User> users = new List<User>();
+                    while (reader.Read())
+                    {
+                        users.Add(new User(reader.GetInt16(0), reader.GetString(1)));
+                    }
+
+                    return users;
                 }
             }
         }

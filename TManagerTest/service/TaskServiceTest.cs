@@ -95,19 +95,22 @@ namespace TManager.test
             int userId = 1;
             string username = "abc@gmail.com";
             string taskId = "test_id";
+            string newTaskId = "test_id_2";
             string taskName = "test_name";
+            string newTaskName = "test_name_2";
             string date = DateUtil.Today().ToString();
             string status = TaskStatus.IN_PROGRESS.ToString();
             string note = "test_note";
             User user = new User(userId, username);
-            Task task = new Task(taskId, taskName, date, date, date, date, date, date, status, date, note);
+            Task oldTask = new Task(taskId, taskName, date, date, date, date, date, date, status, date, note);
+            Task task = new Task(newTaskId, newTaskName, date, date, date, date, date, date, status, date, note);
             task.User = user;
 
             // Act
-            TaskService.UpdateTask(taskId, task);
+            TaskService.UpdateTask(oldTask, task);
 
             // Assert
-            TaskRepository.Verify(TaskRepository => TaskRepository.PartialUpdate(taskId, task), Times.Once());
+            TaskRepository.Verify(TaskRepository => TaskRepository.PartialUpdate(oldTask, task), Times.Once());
         }
 
         [Test(Description = "DeleteTask success")]

@@ -37,7 +37,7 @@ namespace TManager.repository
             return task;
         }
 
-        public virtual void PartialUpdate(string taskId, Task task)
+        public virtual void PartialUpdate(Task oldTask, Task task)
         {
             using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))
             {
@@ -54,8 +54,9 @@ namespace TManager.repository
                     "status = '{8}'," +
                     "deadline = '{9}'," +
                     "note = '{10}'," +
-                    "user_id = {11}" +
-                    " WHERE id = '{12}'",
+                    "user_id = {11} " +
+                    "WHERE id = '{12}' AND " +
+                    "name = '{13}'",
                     task.Id,
                     task.Name,
                     task.Assigned == null ? "" : task.Assigned.ToString(),
@@ -68,7 +69,8 @@ namespace TManager.repository
                     task.Deadline.ToString(),
                     task.Note,
                     task.User.Id,
-                    taskId);
+                    oldTask.Id,
+                    oldTask.Name);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -123,7 +125,7 @@ namespace TManager.repository
             {
                 connection.Open();
                 SQLiteCommand cmd = connection.CreateCommand();
-                cmd.CommandText = string.Format("DELETE FROM tasks WHERE tasks.id = {0}", taskId);
+                cmd.CommandText = string.Format("DELETE FROM tasks WHERE tasks.id = '{0}'", taskId);
                 cmd.ExecuteNonQuery();
             }
         }

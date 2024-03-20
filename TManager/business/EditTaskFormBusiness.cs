@@ -48,7 +48,7 @@ namespace TManager.business
                 deadline!,
                 note!);
             newTask.User = User;
-            taskService.UpdateTask(Task.Id, newTask);
+            taskService.UpdateTask(Task, newTask);
             return newTask;
         }
     }

@@ -82,9 +82,9 @@ namespace TManager.business
             return welcomeMessage;
         }
 
-        public void RefreshTaskListView(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView)
+        public void RefreshTaskListView(int userId, DataGridView taskListView, out DataGridView outTaskListView)
         {
-            List<Task> tasksInProgress = taskList.FindAll(task => !task.IsDone());
+            List<Task> tasksInProgress = TaskService.GetAllTasksByUserId(userId).FindAll(task => !task.IsDone());
             outTaskListView = taskListView;
             outTaskListView.DataSource = tasksInProgress.Select(TaskView.From).ToList();
             UpdateDeadlineFormatting(taskListView, out taskListView);

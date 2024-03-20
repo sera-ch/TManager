@@ -6,7 +6,7 @@ namespace TManager.service
     {
         List<Task> GetAllTasksByUserId(int userId);
         Task SaveTask(Task task);
-        void UpdateTask(string oldTaskId, Task newTask);
+        void UpdateTask(Task oldTask, Task newTask);
         void DeleteTask(string taskId);
         bool ExistsByIdAndName(string taskId, string name);
     }

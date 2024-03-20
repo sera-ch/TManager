@@ -1,4 +1,6 @@
-﻿using TManager.service;
+﻿using TManager.entity;
+using TManager.error;
+using TManager.service;
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -8,12 +10,14 @@ namespace TManager.business
     public class FullTaskListFormBusiness
     {
         private TaskService TaskService;
+        private UserService UserService;
         private int UserId;
 
-        public FullTaskListFormBusiness(int userId, TaskService taskService)
+        public FullTaskListFormBusiness(int userId, TaskService taskService, UserService userService)
         {
             TaskService = taskService;
             UserId = userId;
+            UserService = userService;
         }
 
         public virtual List<Task> GetAllTasks()
@@ -51,6 +55,10 @@ namespace TManager.business
         {
             outTaskListView = taskListView;
             Task? updatedTask = TaskList.Find(t => t.Id == task.Id && t.Name == task.Name);
+            if (updatedTask == null)
+            {
+                return TaskList;
+            }
             updatedTask.Status = newStatus;
             switch (newStatus)
             {
@@ -60,7 +68,7 @@ namespace TManager.business
                 case TaskStatus.MERGED: updatedTask.Merged = DateUtil.Today(); break;
                 case TaskStatus.DONE: updatedTask.Done = DateUtil.Today(); break;
             }
-            TaskService.UpdateTask(updatedTask.Id, updatedTask);
+            TaskService.UpdateTask(updatedTask, updatedTask);
             RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
             return TaskList;
@@ -71,6 +79,7 @@ namespace TManager.business
             outTaskListView = taskListView;
             List<Task> taskList = TaskService.GetAllTasksByUserId(UserId);
             List<Task> selectedTasks = QueryTasks(taskList, outTaskListView, out outTaskListView, status, idOrName);
+            outTaskListView.DataSource = selectedTasks;
             outTaskListView.Refresh();
             return selectedTasks;
         }
@@ -85,7 +94,7 @@ namespace TManager.business
         public virtual void updateTaskAndRefreshList(Task oldTask, Task newTask, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
         {
             outTaskListView = taskListView;
-            TaskService.UpdateTask(oldTask.Id, newTask);
+            TaskService.UpdateTask(oldTask, newTask);
             RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
         }
@@ -134,9 +143,23 @@ namespace TManager.business
 
         }
 
-        public virtual void updateTask(string taskId, Task task)
+        public virtual List<User> GetAllUsers()
         {
-            TaskService.UpdateTask(taskId, task);
+            return UserService.GetAllUsers();
+        }
+
+        public virtual void updateTaskAssigneeAndRefreshList(Task task, string newUserName, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
+        {
+            outTaskListView = taskListView;
+            User? newUser = UserService.GetUserByUsername(newUserName);
+            if (newUser == null)
+            {
+                throw new UserNotFoundException(newUserName);
+            }
+            task.User = newUser;
+            TaskService.UpdateTask(task, task);
+            RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
+            UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
         }
     }
 }

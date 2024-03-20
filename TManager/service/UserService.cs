@@ -8,5 +8,6 @@ namespace TManager.service
         User Register(User user);
         User LogIn(string username, string password);
         User? GetUserByUsername(string username);
+        List<User> GetAllUsers();
     }
 }

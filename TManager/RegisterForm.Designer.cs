@@ -36,6 +36,7 @@
             passwordTextBox = new MaskedTextBox();
             repeatPasswordTextBox = new MaskedTextBox();
             registerButton = new Button();
+            CancelButton = new Button();
             SuspendLayout();
             // 
             // userNameLabel
@@ -94,7 +95,7 @@
             // registerButton
             // 
             registerButton.Anchor = AnchorStyles.Top;
-            registerButton.Location = new Point(231, 266);
+            registerButton.Location = new Point(152, 263);
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(75, 23);
             registerButton.TabIndex = 6;
@@ -102,12 +103,24 @@
             registerButton.UseVisualStyleBackColor = true;
             registerButton.Click += registerButton_Click;
             // 
+            // CancelButton
+            // 
+            CancelButton.Location = new Point(338, 263);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(75, 23);
+            CancelButton.TabIndex = 7;
+            CancelButton.Text = "Cancel";
+            CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.Click += CancelButton_Click;
+            // 
             // RegisterForm
             // 
             AcceptButton = registerButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = CancelButton;
             ClientSize = new Size(535, 320);
+            Controls.Add(CancelButton);
             Controls.Add(registerButton);
             Controls.Add(repeatPasswordTextBox);
             Controls.Add(passwordTextBox);
@@ -135,5 +148,6 @@
         private MaskedTextBox passwordTextBox;
         private MaskedTextBox repeatPasswordTextBox;
         private Button registerButton;
+        private Button CancelButton;
     }
 }

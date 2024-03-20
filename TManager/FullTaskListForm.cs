@@ -1,4 +1,6 @@
 using TManager.business;
+using TManager.entity;
+using TManager.error;
 using TManager.repository;
 using TManager.service;
 using Task = TManager.entity.Task;
@@ -18,7 +20,8 @@ namespace TManager
         {
             InitializeComponent();
             UserId = userId;
-            FullTaskListFormBusiness = new FullTaskListFormBusiness(UserId, new TaskServiceImpl(new TaskRepository()));
+            FullTaskListFormBusiness = new FullTaskListFormBusiness(UserId, new TaskServiceImpl(new TaskRepository()),
+                new UserServiceImpl(new UserRepository()));
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             ShowedTasks = TaskList;
             fullTaskListView.DataSource = ShowedTasks;
@@ -182,60 +185,70 @@ namespace TManager
         private void changeStatusToInProgressItem_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToCodeReviewItem_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToMergedItem_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToClosedItem_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToDoneItem_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void startWorkingButton_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void codeReviewButton_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void mergeButton_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void doneButton_Click(object sender, EventArgs e)
         {
             ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
@@ -268,6 +281,7 @@ namespace TManager
                 Task oldTask = editTaskForm.Task;
                 Task newTask = editTaskForm.NewTask;
                 FullTaskListFormBusiness.updateTaskAndRefreshList(oldTask, newTask, TaskList, fullTaskListView, out fullTaskListView, SearchTextBox.Text, StatusComboBox.SelectedText);
+                TaskList = FullTaskListFormBusiness.GetAllTasks();
             }
         }
 
@@ -278,6 +292,7 @@ namespace TManager
             {
                 return;
             }
+            TaskList = FullTaskListFormBusiness.GetAllTasks();
             FullTaskListFormBusiness.RefreshTaskList(fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             updateButtons();
         }
@@ -287,7 +302,39 @@ namespace TManager
             List<string> statuses = [""];
             statuses = statuses.Concat(Enum.GetNames(typeof(TaskStatus))).ToList();
             StatusComboBox.DataSource = statuses;
+            List<User> users = FullTaskListFormBusiness.GetAllUsers().FindAll(user => user.Id != UserId).ToList();
+            if (users.Count == 0)
+            {
+                reassignToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                reassignToolStripMenuItem.Enabled = true;
+                users.ForEach(user =>
+                {
+                    reassignToolStripMenuItem.DropDownItems.Add(user.Name);
+                });
+                ToolStripItemCollection dropDownItems = reassignToolStripMenuItem.DropDown.Items;
+                foreach (ToolStripItem item in dropDownItems)
+                {
+                    item.Click += reassignToUser_Click;
+                }
+            }
             FullTaskListFormBusiness.UpdateDeadlineFormatting(fullTaskListView, out fullTaskListView);
+        }
+
+        private void reassignToUser_Click(object sender, EventArgs e)
+        {
+            string username = ((ToolStripItem)sender).Text;
+            try
+            {
+                FullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(SelectedTask, username, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            }
+            catch (UserNotFoundException)
+            {
+                MessageBox.Show(ErrorConst.USER_NOT_FOUND_ERROR_MESSAGE, ErrorConst.USER_NOT_FOUND_ERROR_CODE,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void SearchTextBox_TextChanged(object sender, EventArgs e)

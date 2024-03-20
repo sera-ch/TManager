@@ -150,12 +150,14 @@ namespace TManagerTest.business
             task.User = user;
             List<Task> taskList = new List<Task> { task };
             DataGridView taskListView = new DataGridView();
+            TaskService.Setup(TaskService => TaskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            MainWindowBusiness.RefreshTaskListView(taskList, taskListView, out taskListView);
+            MainWindowBusiness.RefreshTaskListView(userId, taskListView, out taskListView);
 
             // Assert
             Assert.That(taskListView.DataSource, Is.Not.Null);
+            TaskService.Verify(TaskService => TaskService.GetAllTasksByUserId(userId), Times.Once());
         }
     }
 }

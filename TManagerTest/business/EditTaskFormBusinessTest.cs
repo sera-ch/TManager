@@ -49,7 +49,7 @@ namespace TManagerTest.business
             Assert.That(actual.Name, Is.EqualTo(newName));
             Assert.That(actual.Deadline.ToString(), Is.EqualTo(newDate));
             Assert.That(actual.Note, Is.EqualTo(newNote));
-            taskService.Verify(taskService => taskService.UpdateTask(task.Id, It.Is<Task>(t =>
+            taskService.Verify(taskService => taskService.UpdateTask(task, It.Is<Task>(t =>
             t.Id == newId &&
             t.Name == newName &&
             t.Deadline.ToString() == newDate &&
@@ -72,7 +72,7 @@ namespace TManagerTest.business
             Assert.That(actual.Name, Is.EqualTo(newName));
             Assert.That(actual.Deadline.ToString(), Is.EqualTo(newDate));
             Assert.That(actual.Note, Is.EqualTo(newNote));
-            taskService.Verify(taskService => taskService.UpdateTask(task.Id, It.Is<Task>(t =>
+            taskService.Verify(taskService => taskService.UpdateTask(task, It.Is<Task>(t =>
             t.Id == task.Id &&
             t.Name == newName &&
             t.Deadline.ToString() == newDate &&
@@ -94,7 +94,7 @@ namespace TManagerTest.business
             Assert.That(actual.Name, Is.EqualTo(task.Name));
             Assert.That(actual.Deadline.ToString(), Is.EqualTo(newDate));
             Assert.That(actual.Note, Is.EqualTo(newNote));
-            taskService.Verify(taskService => taskService.UpdateTask(task.Id, It.Is<Task>(t =>
+            taskService.Verify(taskService => taskService.UpdateTask(task, It.Is<Task>(t =>
             t.Id == task.Id &&
             t.Name == task.Name &&
             t.Deadline.ToString() == newDate &&

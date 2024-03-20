@@ -44,5 +44,11 @@ namespace TManager
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
     }
 }

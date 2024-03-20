@@ -40,6 +40,7 @@
             changeStatusToClosedItem = new ToolStripMenuItem();
             changeStatusToDoneItem = new ToolStripMenuItem();
             deleteTaskMenuItem = new ToolStripMenuItem();
+            reassignToolStripMenuItem = new ToolStripMenuItem();
             startWorkingButton = new Button();
             codeReviewButton = new Button();
             mergeButton = new Button();
@@ -72,21 +73,21 @@
             // 
             // taskContextMenu
             // 
-            taskContextMenu.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem });
+            taskContextMenu.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem, reassignToolStripMenuItem });
             taskContextMenu.Name = "taskContextMenu";
-            taskContextMenu.Size = new Size(150, 92);
+            taskContextMenu.Size = new Size(181, 136);
             // 
             // addToolStripMenuItem
             // 
             addToolStripMenuItem.Name = "addToolStripMenuItem";
-            addToolStripMenuItem.Size = new Size(149, 22);
+            addToolStripMenuItem.Size = new Size(180, 22);
             addToolStripMenuItem.Text = "Add";
             addToolStripMenuItem.Click += addToolStripMenuItem_Click;
             // 
             // updateTaskMenuItem
             // 
             updateTaskMenuItem.Name = "updateTaskMenuItem";
-            updateTaskMenuItem.Size = new Size(149, 22);
+            updateTaskMenuItem.Size = new Size(180, 22);
             updateTaskMenuItem.Text = "Update";
             updateTaskMenuItem.Click += updateTaskMenuItem_Click;
             // 
@@ -94,7 +95,7 @@
             // 
             changeTaskStatusMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeStatusToInProgressItem, changeStatusToCodeReviewItem, changeStatusToMergedItem, changeStatusToClosedItem, changeStatusToDoneItem });
             changeTaskStatusMenuItem.Name = "changeTaskStatusMenuItem";
-            changeTaskStatusMenuItem.Size = new Size(149, 22);
+            changeTaskStatusMenuItem.Size = new Size(180, 22);
             changeTaskStatusMenuItem.Text = "Change status";
             // 
             // changeStatusToInProgressItem
@@ -135,9 +136,15 @@
             // deleteTaskMenuItem
             // 
             deleteTaskMenuItem.Name = "deleteTaskMenuItem";
-            deleteTaskMenuItem.Size = new Size(149, 22);
+            deleteTaskMenuItem.Size = new Size(180, 22);
             deleteTaskMenuItem.Text = "Delete";
             deleteTaskMenuItem.Click += deleteTaskMenuItem_Click;
+            // 
+            // reassignToolStripMenuItem
+            // 
+            reassignToolStripMenuItem.Name = "reassignToolStripMenuItem";
+            reassignToolStripMenuItem.Size = new Size(180, 22);
+            reassignToolStripMenuItem.Text = "Reassign";
             // 
             // startWorkingButton
             // 
@@ -289,5 +296,6 @@
         private Label SearchLabel;
         private ComboBox StatusComboBox;
         private Label StatusLabel;
+        private ToolStripMenuItem reassignToolStripMenuItem;
     }
 }

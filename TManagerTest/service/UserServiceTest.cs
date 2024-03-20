@@ -129,5 +129,38 @@ namespace TManager.test
             Assert.That(actual, Is.EqualTo(user));
             UserRepository.Verify(UserRepository => UserRepository.GetByUserName(username), Times.Once());
         }
+
+        [Test(Description = "GetAllUsers when not found should return empty list")]
+        public void GetAllUsers_WhenNotFound_ShouldReturnEmptyList()
+        {
+            // Arrange
+            UserRepository.Setup(UserRepository => UserRepository.GetAll()).Returns(new List<User>());
+
+            // Act
+            List<User> actual = UserService.GetAllUsers();
+
+            // Assert
+            Assert.That(actual, Is.Empty);
+            UserRepository.Verify(UserRepository => UserRepository.GetAll(), Times.Once());
+        }
+
+        [Test(Description = "GetAllUsers when found should return users")]
+        public void GetAllUsers_WhenFound_ShouldReturnUsers()
+        {
+            // Arrange
+            int userId = 1;
+            string username = "e.kim.mai";
+            User user = new User(userId, username);
+            UserRepository.Setup(UserRepository => UserRepository.GetAll()).Returns(new List<User> { user });
+
+            // Act
+            List<User> actual = UserService.GetAllUsers();
+
+            // Assert
+            Assert.That(actual, Is.Not.Empty);
+            Assert.That(actual.Count, Is.EqualTo(1));
+            Assert.That(actual[0], Is.EqualTo(user));
+            UserRepository.Verify(UserRepository => UserRepository.GetAll(), Times.Once());
+        }
     }
 }

@@ -50,7 +50,19 @@ namespace TManager
 
         private void registerLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // TODO: Show register form
+            RegisterForm registerForm = new RegisterForm();
+            DialogResult result = registerForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Visible = false;
+                Response = registerForm.Response;
+                DialogResult = registerForm.DialogResult;
+                return;
+            }
+            else
+            {
+                Visible = true;
+            }
         }
     }
 }
