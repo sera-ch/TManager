@@ -21,6 +21,12 @@ namespace TManager.repository
                     user.Name,
                     user.Password);
                 cmd.ExecuteNonQuery();
+                cmd.CommandText = string.Format("SELECT * FROM users WHERE users.name = '{0}'", user.Name);
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    user.Id = reader.GetInt32(0);
+                }
             }
             return user;
         }

@@ -54,14 +54,10 @@ namespace TManager
             DialogResult result = registerForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Visible = false;
                 Response = registerForm.Response;
                 DialogResult = registerForm.DialogResult;
+                Close();
                 return;
-            }
-            else
-            {
-                Visible = true;
             }
         }
     }

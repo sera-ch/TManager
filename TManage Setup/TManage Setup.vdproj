@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_60E9489083544EF0AC46C526CA5D50D6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7A7610738DAC4F40BBD562E50A2EF4D1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -140,6 +146,26 @@
             "TargetName" = "8:A.dat"
             "Tag" = "8:"
             "Folder" = "8:_381A13A965E641B3A2878650D710CBBD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_60E9489083544EF0AC46C526CA5D50D6"
+            {
+            "SourcePath" = "8:E:\\tmanager.db"
+            "TargetName" = "8:tmanager.db"
+            "Tag" = "8:"
+            "Folder" = "8:_0B42CB8460844D9996A5D14C0D61BE9A"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -822,7 +848,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0DED73E436FD4A899BA10CDCCFEDCAD5"
             {
-            "SourcePath" = "8:..\\TManager\\obj\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\TManager\\obj\\Release\\net8.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0B42CB8460844D9996A5D14C0D61BE9A"
