@@ -27,7 +27,6 @@ namespace TManagerTest.business
             string taskId4 = "test_id_4";
             string taskId5 = "test_id_5";
             string taskId6 = "test_id_6";
-            string taskId7 = "test_id_7";
             string taskName = "test_name";
             string dateYesterday = DateUtil.Yesterday().ToString();
             string dateToday = DateUtil.Today().ToString();

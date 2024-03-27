@@ -65,21 +65,21 @@ namespace TManager.entity
         {
             // Status PR Sent = PR was sent the previous day but not merged yet OR merged after that day
             return PrSent == DateUtil.Yesterday(date) &&
-            (Merged == null || Merged >= DateUtil.Yesterday(date));
+            (Merged == null || Merged > DateUtil.Yesterday(date));
         }
 
         // Status in progress = PR was started the previous day but not PR sent yet OR sent after that day
         public bool IsInProgress(DateOnly date)
         {
             return Started == DateUtil.Yesterday(date) &&
-                (PrSent == null || PrSent >= DateUtil.Yesterday(date));
+                (PrSent == null || PrSent > DateUtil.Yesterday(date));
         }
 
-        // Status in code review = PR was sent the previous day but not merged yet OR merged after that day
+        // Status in code review = PR was sent the previous day or before but not merged yet OR merged after yesterday
         public bool IsInCodeReview(DateOnly date)
         {
             return PrSent <= DateUtil.Yesterday(date) &&
-                (Merged == null || Merged >= DateUtil.Yesterday(date));
+                (Merged == null || Merged > DateUtil.Yesterday(date));
         }
 
         // Status Merged = PR was merged the previous day
