@@ -79,7 +79,8 @@ namespace TManager.entity
         public bool IsInCodeReview(DateOnly date)
         {
             return PrSent <= DateUtil.Yesterday(date) &&
-                (Merged == null || Merged > DateUtil.Yesterday(date));
+                (Merged == null || Merged > DateUtil.Yesterday(date) &&
+                (Closed == null || Closed > DateUtil.Yesterday(date)));
         }
 
         // Status Merged = PR was merged the previous day
