@@ -267,7 +267,7 @@ namespace TManager
             DialogResult result = MessageBox.Show("Task will be deleted permanently! Do you want to proceed?", "Confirm delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                TaskList = FullTaskListFormBusiness.deleteTaskAndRefreshTaskList(TaskList, fullTaskListView, out fullTaskListView, SelectedTask.Id, StatusComboBox.Text, SearchTextBox.Text);
+                TaskList = FullTaskListFormBusiness.deleteTaskAndRefreshTaskList(TaskList, fullTaskListView, out fullTaskListView, SelectedTask.Id, SelectedTask.Name, StatusComboBox.Text, SearchTextBox.Text);
                 MainWindow.TaskList = TaskList;
             }
         }

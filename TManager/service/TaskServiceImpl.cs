@@ -25,9 +25,9 @@ namespace TManager.service
             TaskRepository.PartialUpdate(oldTask, newTask);
         }
 
-        public virtual void DeleteTask(string taskId)
+        public virtual void DeleteTask(string taskId, string taskName)
         {
-            TaskRepository.Delete(taskId);
+            TaskRepository.Delete(taskId, taskName);
         }
 
         public bool ExistsByIdAndName(string taskId, string name)

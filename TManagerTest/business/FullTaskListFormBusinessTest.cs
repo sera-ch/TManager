@@ -254,11 +254,11 @@ namespace TManagerTest.business
             List<Task> taskList = new List<Task> { task };
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.deleteTaskAndRefreshTaskList(taskList, taskListView, out taskListView, taskId, "", "");
+            List<Task> actual = fullTaskListFormBusiness.deleteTaskAndRefreshTaskList(taskList, taskListView, out taskListView, taskId, taskName, "", "");
 
             // Assert
             Assert.That(actual, Is.Empty);
-            taskService.Verify(taskService => taskService.DeleteTask(taskId), Times.Once);
+            taskService.Verify(taskService => taskService.DeleteTask(taskId, taskName), Times.Once);
             taskService.Verify(taskService => taskService.GetAllTasksByUserId(userId), Times.Once);
             taskService.VerifyNoOtherCalls();
         }

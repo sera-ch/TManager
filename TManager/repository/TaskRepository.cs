@@ -119,13 +119,13 @@ namespace TManager.repository
             }
         }
 
-        public virtual void Delete(string taskId)
+        public virtual void Delete(string taskId, string taskName)
         {
             using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))
             {
                 connection.Open();
                 SQLiteCommand cmd = connection.CreateCommand();
-                cmd.CommandText = string.Format("DELETE FROM tasks WHERE tasks.id = '{0}'", taskId);
+                cmd.CommandText = string.Format("DELETE FROM tasks WHERE tasks.id = '{0}' AND tasks.name = '{1}'", taskId, taskName);
                 cmd.ExecuteNonQuery();
             }
         }

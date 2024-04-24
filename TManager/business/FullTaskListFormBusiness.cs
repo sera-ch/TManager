@@ -136,9 +136,9 @@ namespace TManager.business
             return showedTasks;
         }
 
-        public virtual List<Task> deleteTaskAndRefreshTaskList(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string taskId, string status, string idOrName)
+        public virtual List<Task> deleteTaskAndRefreshTaskList(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string taskId, string taskName, string status, string idOrName)
         {
-            TaskService.DeleteTask(taskId);
+            TaskService.DeleteTask(taskId, taskName);
             return RefreshTaskList(taskListView, out outTaskListView, status, idOrName);
 
         }
