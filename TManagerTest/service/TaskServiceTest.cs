@@ -2,6 +2,7 @@
 using NUnit.Framework.Internal;
 using TManager.repository;
 using TManager.service;
+using TManager.service.dto;
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -125,6 +126,76 @@ namespace TManager.test
 
             // Assert
             TaskRepository.Verify(TaskRepository => TaskRepository.Delete(taskId, taskName), Times.Once());
+        }
+
+        [Test(Description = "GetAllByUserIdPaged found should return page of tasks by user id")]
+        public void GetAllByUserIdPaged_Found_ShouldReturnListOfTasksByUserId()
+        {
+            // Arrange
+            int userId = 1;
+            string username = "abc@gmail.com";
+            string taskId = "test_id";
+            string taskName = "test_name";
+            string date = DateUtil.Today().ToString();
+            string status = TaskStatus.IN_PROGRESS.ToString();
+            string note = "test_note";
+            User user = new User(userId, username);
+            List<Task> tasks = new List<Task>();
+            for (int tid = 0; tid < 35; tid++)
+            {
+                Task task = new Task(taskId + tid, taskName, date, date, date, date, date, date, status, date, note);
+                task.User = user;
+                tasks.Add(task);
+            }
+            TaskRepository.Setup(taskRepository => taskRepository.GetAllByUserId(userId)).Returns(tasks);
+
+            // Act
+            Page<Task> actual = TaskService.GetAllTasksByUserIdPaged(userId, 1, 10);
+
+            // Assert
+            Assert.That(actual.PageSize, Is.EqualTo(10));
+            Assert.That(actual.PageNumber, Is.EqualTo(1));
+            Assert.That(actual.TotalCount, Is.EqualTo(35));
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.That(actual.Items[i].Id, Is.EqualTo(taskId + i));
+            }
+            TaskRepository.Verify(TaskRepository => TaskRepository.GetAllByUserId(userId), Times.Once());
+        }
+
+        [Test(Description = "GetAllByUserIdPaged found with page smaller than input size should return page of tasks by user id")]
+        public void GetAllByUserIdPaged_Found_WithPageSmallerThanInputSize_ShouldReturnListOfTasksByUserId()
+        {
+            // Arrange
+            int userId = 1;
+            string username = "abc@gmail.com";
+            string taskId = "test_id";
+            string taskName = "test_name";
+            string date = DateUtil.Today().ToString();
+            string status = TaskStatus.IN_PROGRESS.ToString();
+            string note = "test_note";
+            User user = new User(userId, username);
+            List<Task> tasks = new List<Task>();
+            for (int tid = 0; tid < 35; tid++)
+            {
+                Task task = new Task(taskId + tid, taskName, date, date, date, date, date, date, status, date, note);
+                task.User = user;
+                tasks.Add(task);
+            }
+            TaskRepository.Setup(taskRepository => taskRepository.GetAllByUserId(userId)).Returns(tasks);
+
+            // Act
+            Page<Task> actual = TaskService.GetAllTasksByUserIdPaged(userId, 4, 10);
+
+            // Assert
+            Assert.That(actual.PageSize, Is.EqualTo(5));
+            Assert.That(actual.PageNumber, Is.EqualTo(4));
+            Assert.That(actual.TotalCount, Is.EqualTo(35));
+            for (int i = 30; i < 35; i++)
+            {
+                Assert.That(actual.Items[i - 30].Id, Is.EqualTo(taskId + i));
+            }
+            TaskRepository.Verify(TaskRepository => TaskRepository.GetAllByUserId(userId), Times.Once());
         }
     }
 }
