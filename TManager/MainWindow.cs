@@ -47,7 +47,7 @@ namespace TManager
 
         private void dailyReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new GenerateDailyReportForm(new GenerateDailyReportFormBusiness()).ShowDialog();
+            new GenerateDailyReportForm(new GenerateDailyReportFormBusiness(new TaskServiceImpl(new TaskRepository()))).ShowDialog();
         }
 
         private void taskListToolStripMenuItem_Click(object sender, EventArgs e)

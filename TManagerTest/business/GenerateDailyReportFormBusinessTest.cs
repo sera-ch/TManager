@@ -1,4 +1,6 @@
-﻿using TManager.business;
+﻿using Moq;
+using TManager.business;
+using TManager.service;
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -10,11 +12,13 @@ namespace TManagerTest.business
     {
 
         private GenerateDailyReportFormBusiness GenerateDailyReportFormBusiness;
+        private Mock<TaskService> TaskService;
 
         [SetUp]
         public void SetUp()
         {
-            GenerateDailyReportFormBusiness = new GenerateDailyReportFormBusiness();
+            TaskService = new Mock<TaskService>();
+            GenerateDailyReportFormBusiness = new GenerateDailyReportFormBusiness(TaskService.Object);
         }
 
         [Test(Description = "GenerateDailyReport success should return daily report")]
@@ -32,6 +36,7 @@ namespace TManagerTest.business
             string dateToday = DateUtil.Today().ToString();
             string deadline = DateUtil.Today().AddDays(7).ToString();
             string note = "test_note";
+            int userId = 1;
             // PR sent yesterday, not merged yet
             Task prSentTask1 = new Task(taskId1, taskName, dateYesterday, dateYesterday, dateYesterday, "", "", "", TaskStatus.CODE_REVIEW.ToString(), deadline, note);
             // PR sent yesterday, merged today
@@ -59,9 +64,10 @@ namespace TManagerTest.business
                 "TODO:\n" +
                 "• test_id_5 test_name\n" +
                 "• test_id_6 test_name";
+            TaskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(tasks);
 
             // Act
-            string actual = GenerateDailyReportFormBusiness.GenerateDailyReport(tasks, DateUtil.Today());
+            string actual = GenerateDailyReportFormBusiness.GenerateDailyReport(userId, DateUtil.Today());
 
             // Assert
             Assert.That(actual, Is.EqualTo(expected));

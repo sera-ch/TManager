@@ -118,12 +118,13 @@ namespace TManager.test
         {
             // Arrange
             string taskId = "test_id";
+            string taskName = "test_name";
 
             // Act
-            TaskService.DeleteTask(taskId);
+            TaskService.DeleteTask(taskId, taskName);
 
             // Assert
-            TaskRepository.Verify(TaskRepository => TaskRepository.Delete(taskId), Times.Once());
+            TaskRepository.Verify(TaskRepository => TaskRepository.Delete(taskId, taskName), Times.Once());
         }
     }
 }

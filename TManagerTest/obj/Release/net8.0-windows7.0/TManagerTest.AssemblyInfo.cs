@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TManagerTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24f6de8ba7593b761de6ea8cd08020f80bbc4cf0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9929ce1f66b68c5b084d07142821381754736269")]
 [assembly: System.Reflection.AssemblyProductAttribute("TManagerTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TManagerTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

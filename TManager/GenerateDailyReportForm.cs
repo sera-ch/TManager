@@ -21,13 +21,13 @@ namespace TManager
         private void GenerateDailyReportForm_Load(object sender, EventArgs e)
         {
             dailyReportDatePicker.MaxDate = DateUtil.ToEndOfDay(DateUtil.Today());
-            string dailyReport = GenerateDailyReportFormBusiness.GenerateDailyReport(MainWindow.TaskList, DateUtil.From(dailyReportDatePicker.Value));
+            string dailyReport = GenerateDailyReportFormBusiness.GenerateDailyReport(MainWindow.User.Id, DateUtil.From(dailyReportDatePicker.Value));
             dailyReportTextBox.Text = dailyReport;
         }
 
         private void dailyReportDatePicker_ValueChanged(object sender, EventArgs e)
         {
-            string dailyReport = GenerateDailyReportFormBusiness.GenerateDailyReport(MainWindow.TaskList, DateUtil.From(dailyReportDatePicker.Value));
+            string dailyReport = GenerateDailyReportFormBusiness.GenerateDailyReport(MainWindow.User.Id, DateUtil.From(dailyReportDatePicker.Value));
             dailyReportTextBox.Text = dailyReport;
         }
     }

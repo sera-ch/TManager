@@ -1,4 +1,5 @@
-﻿using Task = TManager.entity.Task;
+﻿using TManager.service;
+using Task = TManager.entity.Task;
 
 namespace TManager.business
 {
@@ -8,9 +9,17 @@ namespace TManager.business
         const string CODE_REVIEW = "(Fix comments)";
         const string MERGED = "(Merged)";
         const string BULLET = "• ";
+        TaskService taskService;
 
-        public string GenerateDailyReport(List<Task> taskList, DateOnly date)
+        public GenerateDailyReportFormBusiness(TaskService taskService)
         {
+            this.taskService = taskService;
+        }
+
+        public string GenerateDailyReport(int userId, DateOnly date)
+        {
+            List<Task> taskList = taskService.GetAllTasksByUserId(userId);
+
             List<Task> prSentTasks = taskList.FindAll(task => task.IsPrSent(date));
 
             List<Task> mergedTasks = taskList.FindAll(task => task.IsMerged(date));
