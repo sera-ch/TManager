@@ -107,6 +107,44 @@ namespace TManager.repository
             return tasks;
         }
 
+        public virtual List<Task> GetAllByUserIdAndStringAndStatus(int userId, string query, string status)
+        {
+            List<Task> tasks = new List<Task>();
+            using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                connection.Open();
+                SQLiteCommand cmd = connection.CreateCommand();
+                string taskIdOrName = query == "" ? "" : string.Format("AND (tasks.id LIKE '%{0}%' OR tasks.name LIKE '%{0}%') ", query);
+                string taskStatus = status == "" ? "" : string.Format("AND tasks.status = '{0}'", status);
+                cmd.CommandText = string.Format("SELECT * FROM tasks LEFT JOIN users ON tasks.user_id = users.id WHERE " +
+                    "tasks.user_id = {0} " +
+                    taskIdOrName +
+                    taskStatus,
+                    userId);
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        User user = new User(reader.GetInt16(12), reader.GetString(13));
+                        Task task = new Task(reader.GetString(0),
+                            reader.GetString(1),
+                            reader.GetString(2) != null ? reader.GetString(2) : "",
+                            string.IsNullOrEmpty(reader.GetString(3)) ? "" : reader.GetString(3),
+                            string.IsNullOrEmpty(reader.GetString(4)) ? "" : reader.GetString(4),
+                            string.IsNullOrEmpty(reader.GetString(5)) ? "" : reader.GetString(5),
+                            string.IsNullOrEmpty(reader.GetString(6)) ? "" : reader.GetString(6),
+                            string.IsNullOrEmpty(reader.GetString(7)) ? "" : reader.GetString(7),
+                            reader.GetString(8),
+                            string.IsNullOrEmpty(reader.GetString(9)) ? "" : reader.GetString(9).ToString(),
+                            reader.GetString(10));
+                        task.User = user;
+                        tasks.Add(task);
+                    }
+                }
+            }
+            return tasks;
+        }
+
         public virtual bool ExistsByIdAndName(string taskId, string name)
         {
             using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))

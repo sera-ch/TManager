@@ -16,6 +16,9 @@ namespace TManager
 
         private FullTaskListFormBusiness FullTaskListFormBusiness;
         private int UserId;
+        public static int TotalCount { get; set; }
+        public int PageNumber { get; set; }
+        private const int DEFAULT_PAGE_SIZE = 20;
         public FullTaskListForm(int userId)
         {
             InitializeComponent();
@@ -32,6 +35,9 @@ namespace TManager
             closeButton.Enabled = false;
             doneButton.Enabled = false;
             taskDeleteButton.Enabled = false;
+            TotalCount = TaskList.Count;
+            PageNumber = 1;
+            pageNumberTextBox.Value = PageNumber;
         }
 
         private void fullTaskListView_SelectionChanged(object sender, EventArgs e)
@@ -184,70 +190,70 @@ namespace TManager
 
         private void changeStatusToInProgressItem_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToCodeReviewItem_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToMergedItem_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToClosedItem_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void changeStatusToDoneItem_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void startWorkingButton_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.IN_PROGRESS, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void codeReviewButton_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.CODE_REVIEW, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void mergeButton_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.MERGED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.CLOSED, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
 
         private void doneButton_Click(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            ShowedTasks = FullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(this, SelectedTask, TaskStatus.DONE, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
             TaskList = FullTaskListFormBusiness.GetAllTasks();
             MainWindow.TaskList = ShowedTasks;
         }
@@ -267,7 +273,7 @@ namespace TManager
             DialogResult result = MessageBox.Show("Task will be deleted permanently! Do you want to proceed?", "Confirm delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                TaskList = FullTaskListFormBusiness.deleteTaskAndRefreshTaskList(TaskList, fullTaskListView, out fullTaskListView, SelectedTask.Id, SelectedTask.Name, StatusComboBox.Text, SearchTextBox.Text);
+                TaskList = FullTaskListFormBusiness.deleteTaskAndRefreshTaskList(this, TaskList, fullTaskListView, out fullTaskListView, SelectedTask.Id, SelectedTask.Name, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
                 MainWindow.TaskList = TaskList;
             }
         }
@@ -280,7 +286,7 @@ namespace TManager
             {
                 Task oldTask = editTaskForm.Task;
                 Task newTask = editTaskForm.NewTask;
-                FullTaskListFormBusiness.updateTaskAndRefreshList(oldTask, newTask, TaskList, fullTaskListView, out fullTaskListView, SearchTextBox.Text, StatusComboBox.SelectedText);
+                FullTaskListFormBusiness.updateTaskAndRefreshList(this, oldTask, newTask, TaskList, fullTaskListView, out fullTaskListView, SearchTextBox.Text, StatusComboBox.SelectedText, PageNumber);
                 TaskList = FullTaskListFormBusiness.GetAllTasks();
             }
         }
@@ -293,13 +299,21 @@ namespace TManager
                 return;
             }
             TaskList = FullTaskListFormBusiness.GetAllTasks();
-            FullTaskListFormBusiness.RefreshTaskList(fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            FullTaskListFormBusiness.RefreshTaskList(this, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
             updateButtons();
         }
 
         private void FullTaskListForm_Load(object sender, EventArgs e)
         {
             List<string> statuses = [""];
+            if (TaskList.Count > DEFAULT_PAGE_SIZE)
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+                pageNumberTextBox.Enabled = true;
+            }
+            PageNumber = 1;
+            pageNumberTextBox.Value = PageNumber;
             statuses = statuses.Concat(Enum.GetNames(typeof(TaskStatus))).ToList();
             StatusComboBox.DataSource = statuses;
             List<User> users = FullTaskListFormBusiness.GetAllUsers().FindAll(user => user.Id != UserId).ToList();
@@ -321,6 +335,26 @@ namespace TManager
                 }
             }
             FullTaskListFormBusiness.UpdateDeadlineFormatting(fullTaskListView, out fullTaskListView);
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
         }
 
         private void reassignToUser_Click(object sender, EventArgs e)
@@ -328,7 +362,7 @@ namespace TManager
             string username = ((ToolStripItem)sender).Text;
             try
             {
-                FullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(SelectedTask, username, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+                FullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(this, SelectedTask, username, TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
             }
             catch (UserNotFoundException)
             {
@@ -339,12 +373,179 @@ namespace TManager
 
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.QueryTasks(TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            PageNumber = 1;
+            pageNumberTextBox.Value = PageNumber;
+            ShowedTasks = FullTaskListFormBusiness.RefreshTaskList(this,
+                fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
         }
 
         private void StatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowedTasks = FullTaskListFormBusiness.QueryTasks(TaskList, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text);
+            PageNumber = 1;
+            pageNumberTextBox.Value = PageNumber;
+            ShowedTasks = FullTaskListFormBusiness.RefreshTaskList(this,
+                fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
+            UpdateTotalCountLabel();
+        }
+
+        private void toPreviousPageButton_Click(object sender, EventArgs e)
+        {
+            PageNumber = FullTaskListFormBusiness.TurnTaskListViewPage(this, UserId, SearchTextBox.Text, StatusComboBox.Text, PageNumber - 1);
+            pageNumberTextBox.Value = PageNumber;
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
+            FullTaskListFormBusiness.RefreshTaskList(this, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
+            UpdateTotalCountLabel();
+        }
+
+        private void toNextPageButton_Click(object sender, EventArgs e)
+        {
+            PageNumber = FullTaskListFormBusiness.TurnTaskListViewPage(this, UserId, SearchTextBox.Text, StatusComboBox.Text, PageNumber + 1);
+            pageNumberTextBox.Value = PageNumber;
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
+            FullTaskListFormBusiness.RefreshTaskList(this, fullTaskListView, out fullTaskListView, StatusComboBox.Text, SearchTextBox.Text, PageNumber);
+            totalCountLabel.Text = string.Format("Total count: {0}", TotalCount);
+        }
+
+        private void ToFirstPageButton_Click(object sender, EventArgs e)
+        {
+
+            PageNumber = FullTaskListFormBusiness.TurnTaskListViewPage(this, UserId, SearchTextBox.Text, StatusComboBox.Text, 1);
+            pageNumberTextBox.Value = PageNumber;
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
+            FullTaskListFormBusiness.RefreshTaskList(this, fullTaskListView, out fullTaskListView, StatusComboBox.Text,
+                SearchTextBox.Text, PageNumber);
+            totalCountLabel.Text = string.Format("Total count: {0}", TotalCount);
+        }
+
+        private void toLastPageButton_Click(object sender, EventArgs e)
+        {
+            PageNumber = FullTaskListFormBusiness.TurnTaskListViewPage(this, UserId, SearchTextBox.Text, StatusComboBox.Text, TotalCount / DEFAULT_PAGE_SIZE + 1);
+            pageNumberTextBox.Value = PageNumber;
+            if (PageNumber * DEFAULT_PAGE_SIZE >= TotalCount)
+            {
+                toNextPageButton.Enabled = false;
+                toLastPageButton.Enabled = false;
+            }
+            else
+            {
+                toNextPageButton.Enabled = true;
+                toLastPageButton.Enabled = true;
+            }
+            if (PageNumber > 1)
+            {
+                toPreviousPageButton.Enabled = true;
+                ToFirstPageButton.Enabled = true;
+            }
+            else
+            {
+                toPreviousPageButton.Enabled = false;
+                ToFirstPageButton.Enabled = false;
+            }
+            FullTaskListFormBusiness.RefreshTaskList(this, fullTaskListView, out fullTaskListView, StatusComboBox.Text,
+                SearchTextBox.Text, PageNumber);
+            totalCountLabel.Text = string.Format("Total count: {0}", TotalCount);
+        }
+
+        private void UpdateTotalCountLabel()
+        {
+            totalCountLabel.Text = string.Format("Total count: {0}", TotalCount);
         }
     }
 }

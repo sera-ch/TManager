@@ -49,7 +49,8 @@ namespace TManagerTest.business
             List<Task> oldTaskList = new List<Task>();
             taskListView.DataSource = oldTaskList;
             List<Task> newTaskList = new List<Task> { task, task2 };
-            TaskService.Setup(TaskService => TaskService.GetAllTasksByUserId(userId)).Returns(newTaskList);
+            TaskService.Setup(TaskService => TaskService.GetAllTasksByUserIdPaged(userId, 1, 20))
+                .Returns(Page<Task>.of(newTaskList, 1, 20));
 
             // Act
             MainWindowBusiness.InitiateTaskListView(userId, taskListView, out oldTaskList, out taskListView);
@@ -120,7 +121,7 @@ namespace TManagerTest.business
             Task dueAfterTomorrowTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, status, dateAfterTomorrow, note);
             Task inReviewTask = new Task(taskId, taskName, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, dateAfterTomorrow, TaskStatus.CODE_REVIEW.ToString(), dateAfterTomorrow, note);
             List<Task> tasks = new List<Task> { dueTodayTask, dueTomorrowTask, dueAfterTomorrowTask, overdueTask, inReviewTask };
-            string welcomeMessage = "Welcome" + username + "! Today is " +
+            string welcomeMessage = "Welcome " + username + "! Today is " +
                 DateUtil.Today().ToString() + ".\n" +
                 "You have 1 task(s) due today\n" +
                 "You have 1 task(s) due tomorrow\n" +
@@ -145,19 +146,21 @@ namespace TManagerTest.business
             string date = DateUtil.Today().ToString();
             string status = TaskStatus.IN_PROGRESS.ToString();
             string note = "test_note";
+            int pageNumber = 1;
             User user = new User(userId, username);
             Task task = new Task(taskId, taskName, date, date, date, date, date, date, status, date, note);
             task.User = user;
             List<Task> taskList = new List<Task> { task };
             DataGridView taskListView = new DataGridView();
-            TaskService.Setup(TaskService => TaskService.GetAllTasksByUserId(userId)).Returns(taskList);
+            TaskService.Setup(TaskService => TaskService.GetAllTasksByUserIdPaged(userId, 1, 20))
+                .Returns(Page<Task>.of(taskList, 1, 20));
 
             // Act
-            MainWindowBusiness.RefreshTaskListView(userId, taskListView, out taskListView);
+            MainWindowBusiness.RefreshTaskListView(userId, taskListView, out taskListView, pageNumber);
 
             // Assert
             Assert.That(taskListView.DataSource, Is.Not.Null);
-            TaskService.Verify(TaskService => TaskService.GetAllTasksByUserId(userId), Times.Once());
+            TaskService.Verify(TaskService => TaskService.GetAllTasksByUserIdPaged(userId, 1, 20), Times.Once());
         }
     }
 }

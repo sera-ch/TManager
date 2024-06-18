@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Windows.Forms;
+using TManager;
 using TManager.business;
 using TManager.error;
 using TManager.service;
@@ -17,6 +18,7 @@ namespace TManagerTest.business
         private Mock<TaskService> taskService;
         private Mock<UserService> userService;
         private int userId = 1;
+        private FullTaskListForm fullTaskListForm = new FullTaskListForm(1);
 
         [SetUp]
         public void setUp()
@@ -24,6 +26,12 @@ namespace TManagerTest.business
             taskService = new Mock<TaskService>();
             userService = new Mock<UserService>();
             fullTaskListFormBusiness = new FullTaskListFormBusiness(userId, taskService.Object, userService.Object);
+        }
+
+        [OneTimeTearDown]
+        public void tearDown()
+        {
+            fullTaskListForm.Dispose();
         }
 
         [Test(Description = "GetAllTasks not found should return empty list")]
@@ -98,7 +106,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
+            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(fullTaskListForm, task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
 
             // Assert
             Assert.That(actual[0].Status, Is.EqualTo(newTaskStatus));
@@ -124,7 +132,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
+            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(fullTaskListForm, task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
 
             // Assert
             Assert.That(actual[0].Status, Is.EqualTo(newTaskStatus));
@@ -150,7 +158,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
+            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(fullTaskListForm, task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
 
             // Assert
             Assert.That(actual[0].Status, Is.EqualTo(newTaskStatus));
@@ -176,7 +184,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
+            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(fullTaskListForm, task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
 
             // Assert
             Assert.That(actual[0].Status, Is.EqualTo(newTaskStatus));
@@ -202,7 +210,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
+            List<Task> actual = fullTaskListFormBusiness.updateTaskStatusAndRefreshTaskList(fullTaskListForm, task, newTaskStatus, new List<Task> { task }, taskListView, out taskListView, "", "");
 
             // Assert
             Assert.That(actual[0].Status, Is.EqualTo(newTaskStatus));
@@ -232,7 +240,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            fullTaskListFormBusiness.updateTaskAndRefreshList(oldTask, newTask, taskList, taskListView, out taskListView, "", "");
+            fullTaskListFormBusiness.updateTaskAndRefreshList(fullTaskListForm, oldTask, newTask, taskList, taskListView, out taskListView, "", "", 1);
 
             // Assert
             taskService.Verify(taskService => taskService.UpdateTask(oldTask, newTask), Times.Once);
@@ -254,7 +262,7 @@ namespace TManagerTest.business
             List<Task> taskList = new List<Task> { task };
 
             // Act
-            List<Task> actual = fullTaskListFormBusiness.deleteTaskAndRefreshTaskList(taskList, taskListView, out taskListView, taskId, taskName, "", "");
+            List<Task> actual = fullTaskListFormBusiness.deleteTaskAndRefreshTaskList(fullTaskListForm, taskList, taskListView, out taskListView, taskId, taskName, "", "", 1);
 
             // Assert
             Assert.That(actual, Is.Empty);
@@ -317,7 +325,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act and Assert
-            Assert.Throws(typeof(UserNotFoundException), () => fullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(task1, newUsername, taskList, taskListView, out taskListView, "", ""));
+            Assert.Throws(typeof(UserNotFoundException), () => fullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(fullTaskListForm, task1, newUsername, taskList, taskListView, out taskListView, "", "", 1));
             userService.Verify(UserService => UserService.GetUserByUsername(newUsername), Times.Once());
             taskService.VerifyNoOtherCalls();
         }
@@ -345,7 +353,7 @@ namespace TManagerTest.business
             taskService.Setup(taskService => taskService.GetAllTasksByUserId(userId)).Returns(taskList);
 
             // Act
-            fullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(task1, newUsername, taskList, taskListView, out taskListView, "", "");
+            fullTaskListFormBusiness.updateTaskAssigneeAndRefreshList(fullTaskListForm, task1, newUsername, taskList, taskListView, out taskListView, "", "", 1);
 
             // Assert
             userService.Verify(UserService => UserService.GetUserByUsername(newUsername), Times.Once());

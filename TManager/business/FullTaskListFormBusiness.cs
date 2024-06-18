@@ -1,6 +1,7 @@
 ﻿using TManager.entity;
 using TManager.error;
 using TManager.service;
+using TManager.service.dto;
 using TManager.util;
 using Task = TManager.entity.Task;
 using TaskStatus = TManager.entity.TaskStatus;
@@ -12,6 +13,7 @@ namespace TManager.business
         private TaskService TaskService;
         private UserService UserService;
         private int UserId;
+        private const int DEFAULT_PAGE_SIZE = 20;
 
         public FullTaskListFormBusiness(int userId, TaskService taskService, UserService userService)
         {
@@ -51,7 +53,7 @@ namespace TManager.business
             return selectedTask;
         }
 
-        public virtual List<Task> updateTaskStatusAndRefreshTaskList(Task task, TaskStatus newStatus, List<Task> TaskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
+        public virtual List<Task> updateTaskStatusAndRefreshTaskList(FullTaskListForm fullTaskListForm, Task task, TaskStatus newStatus, List<Task> TaskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
         {
             outTaskListView = taskListView;
             Task? updatedTask = TaskList.Find(t => t.Id == task.Id && t.Name == task.Name);
@@ -69,33 +71,33 @@ namespace TManager.business
                 case TaskStatus.DONE: updatedTask.Done = DateUtil.Today(); break;
             }
             TaskService.UpdateTask(updatedTask, updatedTask);
-            RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
+            RefreshTaskList(fullTaskListForm, outTaskListView, out outTaskListView, status, idOrName, fullTaskListForm.PageNumber);
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
             return TaskList;
         }
 
-        public virtual List<Task> RefreshTaskList(DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
+        public virtual List<Task> RefreshTaskList(FullTaskListForm fullTaskListForm, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName, int pageNumber)
         {
             outTaskListView = taskListView;
-            List<Task> taskList = TaskService.GetAllTasksByUserId(UserId);
-            List<Task> selectedTasks = QueryTasks(taskList, outTaskListView, out outTaskListView, status, idOrName);
-            outTaskListView.DataSource = selectedTasks;
+            Page<Task> taskList = TaskService.GetAllTasksByUserIdAndStringAndStatus(UserId, status, idOrName, pageNumber, DEFAULT_PAGE_SIZE);
+            outTaskListView.DataSource = taskList.Items;
             outTaskListView.Refresh();
-            return selectedTasks;
+            FullTaskListForm.TotalCount = taskList.TotalCount;
+            return taskList.Items;
         }
 
-        public virtual void RefreshTaskList(List<Task> newTaskList, DataGridView taskListView, out DataGridView outTaskListView)
+        public virtual void RefreshTaskList(FullTaskListForm fullTaskListForm, List<Task> newTaskList, DataGridView taskListView, out DataGridView outTaskListView)
         {
             outTaskListView = taskListView;
             outTaskListView.DataSource = newTaskList;
             outTaskListView.Refresh();
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
         }
-        public virtual void updateTaskAndRefreshList(Task oldTask, Task newTask, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
+        public virtual void updateTaskAndRefreshList(FullTaskListForm fullTaskListForm, Task oldTask, Task newTask, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName, int pageNumber)
         {
             outTaskListView = taskListView;
             TaskService.UpdateTask(oldTask, newTask);
-            RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
+            RefreshTaskList(fullTaskListForm, outTaskListView, out outTaskListView, status, idOrName, pageNumber);
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
         }
 
@@ -123,23 +125,10 @@ namespace TManager.business
             }
         }
 
-        public virtual List<Task> QueryTasks(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
-        {
-            outTaskListView = taskListView;
-            if (taskList == null || taskList.Count == 0)
-            {
-                return new List<Task>();
-            }
-            List<Task> showedTasks = taskList.FindAll(task => task.IsMatch(status, idOrName));
-            RefreshTaskList(showedTasks, outTaskListView, out outTaskListView);
-            UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
-            return showedTasks;
-        }
-
-        public virtual List<Task> deleteTaskAndRefreshTaskList(List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string taskId, string taskName, string status, string idOrName)
+        public virtual List<Task> deleteTaskAndRefreshTaskList(FullTaskListForm fullTaskListForm, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string taskId, string taskName, string status, string idOrName, int pageNumber)
         {
             TaskService.DeleteTask(taskId, taskName);
-            return RefreshTaskList(taskListView, out outTaskListView, status, idOrName);
+            return RefreshTaskList(fullTaskListForm, taskListView, out outTaskListView, status, idOrName, pageNumber);
 
         }
 
@@ -148,7 +137,7 @@ namespace TManager.business
             return UserService.GetAllUsers();
         }
 
-        public virtual void updateTaskAssigneeAndRefreshList(Task task, string newUserName, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName)
+        public virtual void updateTaskAssigneeAndRefreshList(FullTaskListForm fullTaskListForm, Task task, string newUserName, List<Task> taskList, DataGridView taskListView, out DataGridView outTaskListView, string status, string idOrName, int pageNumber)
         {
             outTaskListView = taskListView;
             User? newUser = UserService.GetUserByUsername(newUserName);
@@ -158,8 +147,20 @@ namespace TManager.business
             }
             task.User = newUser;
             TaskService.UpdateTask(task, task);
-            RefreshTaskList(outTaskListView, out outTaskListView, status, idOrName);
+            RefreshTaskList(fullTaskListForm, outTaskListView, out outTaskListView, status, idOrName, pageNumber);
             UpdateDeadlineFormatting(outTaskListView, out outTaskListView);
+        }
+
+        public int TurnTaskListViewPage(FullTaskListForm fullTaskListForm, int userId, string query, string status, int nextPageNumber)
+        {
+            Page<Task> tasks = TaskService.GetAllTasksByUserIdAndStringAndStatus(userId, status, query, nextPageNumber, DEFAULT_PAGE_SIZE);
+            if (tasks.PageSize < 1)
+            {
+                return fullTaskListForm.PageNumber;
+            }
+            fullTaskListForm.TaskList = tasks.Items;
+            FullTaskListForm.TotalCount = tasks.TotalCount;
+            return nextPageNumber;
         }
     }
 }

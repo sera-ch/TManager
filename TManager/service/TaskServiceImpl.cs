@@ -51,5 +51,22 @@ namespace TManager.service
                 .GetRange(index, size);
             return Page<Task>.of(tasksSublist, pageNumber, total);
         }
+
+        public virtual Page<Task> GetAllTasksByUserIdAndStringAndStatus(int userId, string status, string query, int pageNumber, int pageSize)
+        {
+            List<Task> tasks = TaskRepository.GetAllByUserIdAndStringAndStatus(userId, query, status);
+            int total = tasks.Count;
+            int index = (pageNumber - 1) * pageSize;
+            int size = Math.Min(pageSize, total - (pageNumber - 1) * pageSize);
+            if (size < 0)
+            {
+                return Page<Task>.of(new List<Task>(), pageNumber, total);
+            }
+            List<Task> tasksSublist = tasks
+                .OrderByDescending(task => task.Assigned)
+                .ToList()
+                .GetRange(index, size);
+            return Page<Task>.of(tasksSublist, pageNumber, total);
+        }
     }
 }

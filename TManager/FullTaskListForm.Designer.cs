@@ -51,8 +51,15 @@
             SearchLabel = new Label();
             StatusComboBox = new ComboBox();
             StatusLabel = new Label();
+            pageNumberTextBox = new NumericUpDown();
+            toLastPageButton = new Button();
+            toNextPageButton = new Button();
+            toPreviousPageButton = new Button();
+            ToFirstPageButton = new Button();
+            totalCountLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).BeginInit();
             taskContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pageNumberTextBox).BeginInit();
             SuspendLayout();
             // 
             // fullTaskListView
@@ -66,7 +73,7 @@
             fullTaskListView.Name = "fullTaskListView";
             fullTaskListView.ReadOnly = true;
             fullTaskListView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            fullTaskListView.Size = new Size(1372, 645);
+            fullTaskListView.Size = new Size(1372, 610);
             fullTaskListView.TabIndex = 0;
             fullTaskListView.SelectionChanged += fullTaskListView_SelectionChanged;
             fullTaskListView.MouseDown += fullTaskListView_CellContentClick;
@@ -75,19 +82,19 @@
             // 
             taskContextMenu.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, updateTaskMenuItem, changeTaskStatusMenuItem, deleteTaskMenuItem, reassignToolStripMenuItem });
             taskContextMenu.Name = "taskContextMenu";
-            taskContextMenu.Size = new Size(181, 136);
+            taskContextMenu.Size = new Size(150, 114);
             // 
             // addToolStripMenuItem
             // 
             addToolStripMenuItem.Name = "addToolStripMenuItem";
-            addToolStripMenuItem.Size = new Size(180, 22);
+            addToolStripMenuItem.Size = new Size(149, 22);
             addToolStripMenuItem.Text = "Add";
             addToolStripMenuItem.Click += addToolStripMenuItem_Click;
             // 
             // updateTaskMenuItem
             // 
             updateTaskMenuItem.Name = "updateTaskMenuItem";
-            updateTaskMenuItem.Size = new Size(180, 22);
+            updateTaskMenuItem.Size = new Size(149, 22);
             updateTaskMenuItem.Text = "Update";
             updateTaskMenuItem.Click += updateTaskMenuItem_Click;
             // 
@@ -95,7 +102,7 @@
             // 
             changeTaskStatusMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeStatusToInProgressItem, changeStatusToCodeReviewItem, changeStatusToMergedItem, changeStatusToClosedItem, changeStatusToDoneItem });
             changeTaskStatusMenuItem.Name = "changeTaskStatusMenuItem";
-            changeTaskStatusMenuItem.Size = new Size(180, 22);
+            changeTaskStatusMenuItem.Size = new Size(149, 22);
             changeTaskStatusMenuItem.Text = "Change status";
             // 
             // changeStatusToInProgressItem
@@ -136,14 +143,14 @@
             // deleteTaskMenuItem
             // 
             deleteTaskMenuItem.Name = "deleteTaskMenuItem";
-            deleteTaskMenuItem.Size = new Size(180, 22);
+            deleteTaskMenuItem.Size = new Size(149, 22);
             deleteTaskMenuItem.Text = "Delete";
             deleteTaskMenuItem.Click += deleteTaskMenuItem_Click;
             // 
             // reassignToolStripMenuItem
             // 
             reassignToolStripMenuItem.Name = "reassignToolStripMenuItem";
-            reassignToolStripMenuItem.Size = new Size(180, 22);
+            reassignToolStripMenuItem.Size = new Size(149, 22);
             reassignToolStripMenuItem.Text = "Reassign";
             // 
             // startWorkingButton
@@ -248,11 +255,82 @@
             StatusLabel.TabIndex = 10;
             StatusLabel.Text = "Status";
             // 
+            // pageNumberTextBox
+            // 
+            pageNumberTextBox.Anchor = AnchorStyles.Bottom;
+            pageNumberTextBox.Location = new Point(643, 688);
+            pageNumberTextBox.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            pageNumberTextBox.Name = "pageNumberTextBox";
+            pageNumberTextBox.Size = new Size(56, 23);
+            pageNumberTextBox.TabIndex = 15;
+            // 
+            // toLastPageButton
+            // 
+            toLastPageButton.Anchor = AnchorStyles.Bottom;
+            toLastPageButton.Location = new Point(755, 682);
+            toLastPageButton.Name = "toLastPageButton";
+            toLastPageButton.Size = new Size(44, 30);
+            toLastPageButton.TabIndex = 14;
+            toLastPageButton.Text = ">>";
+            toLastPageButton.UseVisualStyleBackColor = true;
+            toLastPageButton.Click += toLastPageButton_Click;
+            // 
+            // toNextPageButton
+            // 
+            toNextPageButton.Anchor = AnchorStyles.Bottom;
+            toNextPageButton.Location = new Point(705, 682);
+            toNextPageButton.Name = "toNextPageButton";
+            toNextPageButton.Size = new Size(44, 30);
+            toNextPageButton.TabIndex = 13;
+            toNextPageButton.Text = ">";
+            toNextPageButton.UseVisualStyleBackColor = true;
+            toNextPageButton.Click += toNextPageButton_Click;
+            // 
+            // toPreviousPageButton
+            // 
+            toPreviousPageButton.Anchor = AnchorStyles.Bottom;
+            toPreviousPageButton.Enabled = false;
+            toPreviousPageButton.Location = new Point(593, 682);
+            toPreviousPageButton.Name = "toPreviousPageButton";
+            toPreviousPageButton.Size = new Size(44, 30);
+            toPreviousPageButton.TabIndex = 12;
+            toPreviousPageButton.Text = "<";
+            toPreviousPageButton.UseVisualStyleBackColor = true;
+            toPreviousPageButton.Click += toPreviousPageButton_Click;
+            // 
+            // ToFirstPageButton
+            // 
+            ToFirstPageButton.Anchor = AnchorStyles.Bottom;
+            ToFirstPageButton.Enabled = false;
+            ToFirstPageButton.Location = new Point(543, 682);
+            ToFirstPageButton.Name = "ToFirstPageButton";
+            ToFirstPageButton.Size = new Size(44, 30);
+            ToFirstPageButton.TabIndex = 11;
+            ToFirstPageButton.Text = "<<";
+            ToFirstPageButton.UseVisualStyleBackColor = true;
+            ToFirstPageButton.Click += ToFirstPageButton_Click;
+            // 
+            // totalCountLabel
+            // 
+            totalCountLabel.Anchor = AnchorStyles.Bottom;
+            totalCountLabel.AutoSize = true;
+            totalCountLabel.Location = new Point(814, 697);
+            totalCountLabel.Name = "totalCountLabel";
+            totalCountLabel.Size = new Size(78, 15);
+            totalCountLabel.TabIndex = 16;
+            totalCountLabel.Text = "Total count: 0";
+            // 
             // FullTaskListForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1396, 783);
+            Controls.Add(totalCountLabel);
+            Controls.Add(pageNumberTextBox);
+            Controls.Add(toLastPageButton);
+            Controls.Add(toNextPageButton);
+            Controls.Add(toPreviousPageButton);
+            Controls.Add(ToFirstPageButton);
             Controls.Add(StatusLabel);
             Controls.Add(StatusComboBox);
             Controls.Add(SearchLabel);
@@ -269,6 +347,7 @@
             Load += FullTaskListForm_Load;
             ((System.ComponentModel.ISupportInitialize)fullTaskListView).EndInit();
             taskContextMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pageNumberTextBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -297,5 +376,11 @@
         private ComboBox StatusComboBox;
         private Label StatusLabel;
         private ToolStripMenuItem reassignToolStripMenuItem;
+        private NumericUpDown pageNumberTextBox;
+        private Button toLastPageButton;
+        private Button toNextPageButton;
+        private Button toPreviousPageButton;
+        private Button ToFirstPageButton;
+        private Label totalCountLabel;
     }
 }
